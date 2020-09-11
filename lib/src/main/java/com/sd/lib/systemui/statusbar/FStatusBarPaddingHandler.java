@@ -11,6 +11,8 @@ public class FStatusBarPaddingHandler extends FSystemUIHandler
 
     public FStatusBarPaddingHandler(Window window)
     {
+        if (window == null)
+            throw new NullPointerException("window is null");
         mWindow = window;
     }
 
