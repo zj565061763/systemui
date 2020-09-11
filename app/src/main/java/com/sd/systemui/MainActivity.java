@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sd.lib.systemui.navigationbar.FNavigationBarPadding;
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 import com.sd.lib.systemui.statusbar.FStatusBarPadding;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
@@ -17,9 +18,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ActivityMainBinding mBinding;
 
-    private FStatusBarPadding mStatusBarPadding;
     private boolean mDarkStatusBar = true;
     private boolean mDarkNavigationBar = true;
+
+    private FStatusBarPadding mStatusBarPadding;
+    private FNavigationBarPadding mNavigationBarPadding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mStatusBarPadding = new FStatusBarPadding(getWindow());
         mStatusBarPadding.addView(mBinding.getRoot());
+
+        mNavigationBarPadding = new FNavigationBarPadding();
+        mNavigationBarPadding.addView(mBinding.getRoot());
 
         FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
         FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
