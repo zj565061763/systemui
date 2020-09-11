@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FStatusBarPadding mStatusBarPadding;
     private FNavigationBarPadding mNavigationBarPadding;
 
+    private TestDialog mTestDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             mDarkNavigationBar = !mDarkNavigationBar;
             FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
+        } else if (v == mBinding.btnDialog)
+        {
+            if (mTestDialog == null)
+                mTestDialog = new TestDialog(this);
+            mTestDialog.show();
         }
     }
 }
