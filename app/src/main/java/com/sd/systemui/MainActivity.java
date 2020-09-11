@@ -21,9 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mDarkStatusBar = true;
     private boolean mDarkNavigationBar = true;
 
-    private FStatusBarPadding mStatusBarPadding;
-    private FNavigationBarPadding mNavigationBarPadding;
-
     private TestDialog mTestDialog;
 
     @Override
@@ -32,12 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
-        mStatusBarPadding = new FStatusBarPadding(getWindow());
-        mStatusBarPadding.addView(mBinding.getRoot());
-
-        mNavigationBarPadding = new FNavigationBarPadding();
-        mNavigationBarPadding.addView(mBinding.getRoot());
 
         FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
         FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);

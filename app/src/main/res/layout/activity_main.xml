@@ -5,6 +5,10 @@
     android:background="@drawable/wel"
     android:orientation="vertical">
 
+    <com.sd.lib.systemui.statusbar.view.FStatusBarHeightLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btn_change_status_bar"
         android:layout_width="match_parent"
@@ -39,5 +43,9 @@
         android:layout_height="wrap_content"
         android:text="bottom"
         android:textAllCaps="false" />
+
+    <com.sd.lib.systemui.navigationbar.view.FNavigationBarHeightLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
