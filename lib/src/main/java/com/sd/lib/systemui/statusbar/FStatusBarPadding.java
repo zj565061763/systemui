@@ -5,11 +5,11 @@ import android.view.Window;
 
 import com.sd.lib.systemui.common.FSystemUIHandler;
 
-public class FStatusBarPaddingHandler extends FSystemUIHandler
+public class FStatusBarPadding extends FSystemUIHandler
 {
     private final Window mWindow;
 
-    public FStatusBarPaddingHandler(Window window)
+    public FStatusBarPadding(Window window)
     {
         if (window == null)
             throw new NullPointerException("window is null");

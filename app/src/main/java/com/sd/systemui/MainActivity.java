@@ -5,7 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sd.lib.systemui.statusbar.FStatusBarPaddingHandler;
+import com.sd.lib.systemui.statusbar.FStatusBarPadding;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 import com.sd.systemui.databinding.ActivityMainBinding;
 
@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 {
     private ActivityMainBinding mBinding;
 
-    private FStatusBarPaddingHandler mStatusBarPaddingHandler;
+    private FStatusBarPadding mStatusBarPadding;
     private boolean mDarkStatusBar = true;
 
     @Override
@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mStatusBarPaddingHandler = new FStatusBarPaddingHandler(getWindow());
-        mStatusBarPaddingHandler.addView(mBinding.getRoot());
+        mStatusBarPadding = new FStatusBarPadding(getWindow());
+        mStatusBarPadding.addView(mBinding.getRoot());
 
         FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
     }
