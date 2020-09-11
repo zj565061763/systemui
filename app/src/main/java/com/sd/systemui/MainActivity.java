@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FStatusBarPadding mStatusBarPadding;
     private boolean mDarkStatusBar = true;
+    private boolean mDarkNavigationBar = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mStatusBarPadding.addView(mBinding.getRoot());
 
         FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
+        FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
 
         Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isStatusBarVisible(getWindow())
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)
@@ -41,10 +43,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
-        if (v == mBinding.btnChangeMode)
+        if (v == mBinding.btnChangeStatusBar)
         {
             mDarkStatusBar = !mDarkStatusBar;
             FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
+        } else if (v == mBinding.btnChangeNavigationBar)
+        {
+            mDarkNavigationBar = !mDarkNavigationBar;
+            FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
         }
     }
 }

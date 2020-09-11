@@ -6,11 +6,19 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_change_mode"
+        android:id="@+id/btn_change_status_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="click"
+        android:text="change status bar"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_change_navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="change navigation bar"
         android:textAllCaps="false" />
 
 </LinearLayout>
