@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class FStatusBarUtils
+import com.sd.lib.systemui.common.FSystemUIUtils;
+
+public class FStatusBarUtils extends FSystemUIUtils
 {
     /**
-     * 全透明状态栏
+     * 全透明
      */
     public static void setTransparent(Window window, boolean dark)
     {
@@ -38,9 +40,6 @@ public class FStatusBarUtils
         } else if (Build.VERSION.SDK_INT >= 19)
         {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            //虚拟键盘也透明
-            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 
@@ -78,17 +77,5 @@ public class FStatusBarUtils
     public static boolean isStatusBarVisible(Window window)
     {
         return ((window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == 0);
-    }
-
-    private static int addFlag(int original, int flag)
-    {
-        final int result = original | flag;
-        return result;
-    }
-
-    private static int clearFlag(int original, int flag)
-    {
-        final int result = original & (~flag);
-        return result;
     }
 }
