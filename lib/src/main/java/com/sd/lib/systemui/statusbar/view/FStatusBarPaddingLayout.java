@@ -31,15 +31,15 @@ public class FStatusBarPaddingLayout extends FrameLayout
     {
         if (mPaddingStatusBar)
         {
-            final int statusBarHeight = getStatusBarHeight();
-            super.setPadding(getPaddingLeft(), statusBarHeight, getPaddingRight(), getPaddingBottom());
+            final int barHeight = getBarHeight();
+            super.setPadding(getPaddingLeft(), barHeight, getPaddingRight(), getPaddingBottom());
         } else
         {
             super.setPadding(getPaddingLeft(), mTopPadding, getPaddingRight(), getPaddingBottom());
         }
     }
 
-    private int getStatusBarHeight()
+    private int getBarHeight()
     {
         return FStatusBarUtils.getActivityStatusBarHeight(getContext());
     }
