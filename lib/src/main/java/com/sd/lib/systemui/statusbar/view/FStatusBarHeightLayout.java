@@ -13,17 +13,12 @@ public class FStatusBarHeightLayout extends FrameLayout
         super(context, attrs);
     }
 
-    private int getBarHeight()
-    {
-        return FStatusBarUtils.getActivityStatusBarHeight(getContext());
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        final int barHeight = getBarHeight();
+        final int barHeight = FStatusBarUtils.getActivityStatusBarHeight(getContext());
         setMeasuredDimension(getMeasuredWidth(), barHeight);
     }
 
