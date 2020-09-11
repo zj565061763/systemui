@@ -64,7 +64,7 @@ public class FStatusBarUtils extends FSystemUIUtils
      * @param context
      * @return
      */
-    public static int getStatusBarHeight(Window window, Context context)
+    public static int getWindowStatusBarHeight(Window window, Context context)
     {
         return isStatusBarVisible(window) ? getStatusBarHeight(context) : 0;
     }
@@ -78,7 +78,7 @@ public class FStatusBarUtils extends FSystemUIUtils
     public static int getActivityStatusBarHeight(Context context)
     {
         if (context instanceof Activity)
-            return getStatusBarHeight(((Activity) context).getWindow(), context);
+            return getWindowStatusBarHeight(((Activity) context).getWindow(), context);
         else
             return getStatusBarHeight(context);
     }
