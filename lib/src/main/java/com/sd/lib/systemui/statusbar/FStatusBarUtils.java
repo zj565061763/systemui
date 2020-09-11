@@ -1,5 +1,6 @@
 package com.sd.lib.systemui.statusbar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -66,6 +67,20 @@ public class FStatusBarUtils extends FSystemUIUtils
     public static int getStatusBarHeight(Window window, Context context)
     {
         return isStatusBarVisible(window) ? getStatusBarHeight(context) : 0;
+    }
+
+    /**
+     * 返回Activity的状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getActivityStatusBarHeight(Context context)
+    {
+        if (context instanceof Activity)
+            return getStatusBarHeight(((Activity) context).getWindow(), context);
+        else
+            return getStatusBarHeight(context);
     }
 
     /**

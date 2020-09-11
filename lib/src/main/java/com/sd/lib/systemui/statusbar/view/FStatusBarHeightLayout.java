@@ -1,6 +1,5 @@
 package com.sd.lib.systemui.statusbar.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
@@ -16,11 +15,7 @@ public class FStatusBarHeightLayout extends FrameLayout
 
     private int getStatusBarHeight()
     {
-        final Context context = getContext();
-        if (context instanceof Activity)
-            return FStatusBarUtils.getStatusBarHeight(((Activity) context).getWindow(), context);
-        else
-            return FStatusBarUtils.getStatusBarHeight(context);
+        return FStatusBarUtils.getActivityStatusBarHeight(getContext());
     }
 
     @Override
