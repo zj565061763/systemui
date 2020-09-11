@@ -10,12 +10,12 @@ import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 public class FNavigationBarPaddingLayout extends FrameLayout
 {
     private boolean mPaddingNavigationBar = true;
-    private int mBottomPadding;
+    private int mSavePadding;
 
     public FNavigationBarPaddingLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        mBottomPadding = getPaddingBottom();
+        mSavePadding = getPaddingBottom();
     }
 
     public void setPaddingNavigationBar(boolean padding)
@@ -35,14 +35,14 @@ public class FNavigationBarPaddingLayout extends FrameLayout
             super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), barHeight);
         } else
         {
-            super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), mBottomPadding);
+            super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), mSavePadding);
         }
     }
 
     @Override
     public void setPadding(int left, int top, int right, int bottom)
     {
-        mBottomPadding = bottom;
+        mSavePadding = bottom;
     }
 
     @Override

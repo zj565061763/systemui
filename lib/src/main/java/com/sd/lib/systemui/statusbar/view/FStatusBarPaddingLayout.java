@@ -10,12 +10,12 @@ import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 public class FStatusBarPaddingLayout extends FrameLayout
 {
     private boolean mPaddingStatusBar = true;
-    private int mTopPadding;
+    private int mSavePadding;
 
     public FStatusBarPaddingLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        mTopPadding = getPaddingTop();
+        mSavePadding = getPaddingTop();
     }
 
     public void setPaddingStatusBar(boolean padding)
@@ -35,14 +35,14 @@ public class FStatusBarPaddingLayout extends FrameLayout
             super.setPadding(getPaddingLeft(), barHeight, getPaddingRight(), getPaddingBottom());
         } else
         {
-            super.setPadding(getPaddingLeft(), mTopPadding, getPaddingRight(), getPaddingBottom());
+            super.setPadding(getPaddingLeft(), mSavePadding, getPaddingRight(), getPaddingBottom());
         }
     }
 
     @Override
     public void setPadding(int left, int top, int right, int bottom)
     {
-        mTopPadding = top;
+        mSavePadding = top;
     }
 
     @Override
