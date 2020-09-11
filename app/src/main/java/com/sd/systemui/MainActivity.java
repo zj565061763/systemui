@@ -40,7 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
-        mDarkStatusBar = !mDarkStatusBar;
-        FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
+        if (v == mBinding.btnChangeMode)
+        {
+            mDarkStatusBar = !mDarkStatusBar;
+            FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
+        }
     }
 }
