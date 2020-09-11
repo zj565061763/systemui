@@ -24,6 +24,7 @@ public class FNavigationBarUtils extends FSystemUIUtils
         {
             int flag = window.getDecorView().getSystemUiVisibility();
             flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
             if (dark)
             {
                 flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
