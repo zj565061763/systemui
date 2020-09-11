@@ -1,6 +1,11 @@
 package com.sd.lib.systemui.navigationbar;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
+import android.view.ViewConfiguration;
+
+import java.lang.reflect.Method;
 
 public class FNavigationBarUtils
 {
@@ -12,7 +17,57 @@ public class FNavigationBarUtils
      */
     public static int getNavigationBarHeight(Context context)
     {
-        final int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        return resourceId > 0 ? context.getResources().getDimensionPixelSize(resourceId) : 0;
+        if (isNavigationBarVisible(context))
+        {
+            final Resources resources = context.getResources();
+            final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
+        } else
+        {
+            return 0;
+        }
+    }
+
+    /**
+     * 底部导航栏是否可见
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNavigationBarVisible(Context context)
+    {
+        final Resources resources = context.getResources();
+        final int resourceId = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (resourceId == 0)
+            return !ViewConfiguration.get(context).hasPermanentMenuKey();
+
+        boolean isNavigationBarVisible = resources.getBoolean(resourceId);
+
+        final String navigationBarOverride = getNavigationBarOverride();
+        if ("1".equals(navigationBarOverride))
+        {
+            isNavigationBarVisible = false;
+        }
+
+        return isNavigationBarVisible;
+    }
+
+    private static String getNavigationBarOverride()
+    {
+        String result = null;
+        if (Build.VERSION.SDK_INT >= 19)
+        {
+            try
+            {
+                final Class clazz = Class.forName("android.os.SystemProperties");
+                final Method method = clazz.getDeclaredMethod("get", String.class);
+                method.setAccessible(true);
+                result = (String) method.invoke(null, "qemu.hw.mainkeys");
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }

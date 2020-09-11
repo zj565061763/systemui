@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isStatusBarVisible(getWindow())
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)
+                + " isNavigationBarVisible:" + FNavigationBarUtils.isNavigationBarVisible(this)
                 + " navigationBarHeight:" + FNavigationBarUtils.getNavigationBarHeight(this));
     }
 
