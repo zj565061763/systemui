@@ -19,7 +19,7 @@ public class FStatusBarPaddingHandler extends FSystemUIHandler
     @Override
     protected void checkView(View view)
     {
-        final int statusBarHeight = FStatusBarUtils.getWindowStatusBarHeight(mWindow, view.getContext());
+        final int statusBarHeight = FStatusBarUtils.getStatusBarHeight(mWindow, view.getContext());
         if (view.getPaddingTop() != statusBarHeight)
             view.setPadding(view.getPaddingLeft(), statusBarHeight, view.getPaddingRight(), view.getPaddingBottom());
     }
