@@ -54,7 +54,7 @@ public class FStatusBarUtils
     {
         final Resources resources = context.getResources();
         final int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
-        return resourceId > 0 ? resources.getDimensionPixelSize(resourceId) : 0;
+        return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
     }
 
     /**
