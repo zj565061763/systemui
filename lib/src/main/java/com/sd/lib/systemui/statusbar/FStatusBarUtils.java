@@ -13,7 +13,12 @@ import com.sd.lib.systemui.common.FSystemUIUtils;
 
 public class FStatusBarUtils extends FSystemUIUtils
 {
-    @Deprecated
+    /**
+     * 设置全透明
+     *
+     * @param window
+     * @param dark   {@link #setBrightness(Window, boolean)}
+     */
     public static void setTransparent(Window window, boolean dark)
     {
         setTransparent(window);

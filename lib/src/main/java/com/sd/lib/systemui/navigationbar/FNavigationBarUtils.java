@@ -15,7 +15,12 @@ import java.lang.reflect.Method;
 
 public class FNavigationBarUtils extends FSystemUIUtils
 {
-    @Deprecated
+    /**
+     * 设置全透明
+     *
+     * @param window
+     * @param dark   {@link #setBrightness(Window, boolean)}
+     */
     public static void setTransparent(Window window, boolean dark)
     {
         setTransparent(window);
