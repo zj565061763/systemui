@@ -38,6 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
+        FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
+    }
+
+    @Override
     public void onClick(View v)
     {
         if (v == mBinding.btnChangeStatusBar)
