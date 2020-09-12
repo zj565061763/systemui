@@ -29,10 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(mBinding.getRoot());
 
         FStatusBarUtils.setTransparent(getWindow());
-        FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
-
         FNavigationBarUtils.setTransparent(getWindow());
-        FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
 
         Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isStatusBarVisible(getWindow())
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)
