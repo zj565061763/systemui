@@ -6,9 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sd.lib.systemui.navigationbar.FNavigationBarPadding;
+import com.sd.lib.context.FContext;
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
-import com.sd.lib.systemui.statusbar.FStatusBarPadding;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 import com.sd.systemui.databinding.ActivityMainBinding;
 
@@ -55,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mTestDialog == null)
                 mTestDialog = new TestDialog(this);
             mTestDialog.show();
+
+            v.postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    // leak
+                    mTestDialog.setTransparent();
+                }
+            }, 2000);
         }
     }
 }

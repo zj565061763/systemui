@@ -14,20 +14,18 @@ public class TestDialog extends FDialoger
         super(activity);
         setPadding(0, 0, 0, 0);
         setContentView(R.layout.dialog_test);
-        setTransparent();
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-        setTransparent();
+        getWindow().getAttributes().height = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     public void setTransparent()
     {
         FStatusBarUtils.setTransparent(getWindow(), true);
         FNavigationBarUtils.setTransparent(getWindow(), true);
-        getWindow().getAttributes().height = ViewGroup.LayoutParams.MATCH_PARENT;
     }
 }
