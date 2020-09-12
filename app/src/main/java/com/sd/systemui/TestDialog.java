@@ -12,11 +12,9 @@ public class TestDialog extends FDialoger
 
     public TestDialog(Activity activity)
     {
-        super(activity, R.style.lib_dialoger_default);
+        super(activity);
         setPadding(0, 0, 0, 0);
         setContentView(R.layout.dialog_test);
-
-        FStatusBarUtils.setTransparent(getWindow());
     }
 
     @Override
@@ -24,15 +22,8 @@ public class TestDialog extends FDialoger
     {
         super.onStart();
         getWindow().getAttributes().height = FResUtil.getScreenHeight();
-        mSystemUiVisibility = getOwnerActivity().getWindow().getDecorView().getSystemUiVisibility();
+        FStatusBarUtils.setTransparent(getWindow());
         FStatusBarUtils.setBrightness(getOwnerActivity().getWindow(), false);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        getOwnerActivity().getWindow().getDecorView().setSystemUiVisibility(mSystemUiVisibility);
     }
 
     @Override
