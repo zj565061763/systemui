@@ -36,6 +36,11 @@ public class FNavigationBarUtils extends FSystemUIUtils
     {
         if (Build.VERSION.SDK_INT >= 21)
         {
+            int flag = window.getDecorView().getSystemUiVisibility();
+            flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(flag);
+
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
@@ -58,8 +63,6 @@ public class FNavigationBarUtils extends FSystemUIUtils
         if (Build.VERSION.SDK_INT >= 21)
         {
             int flag = window.getDecorView().getSystemUiVisibility();
-            flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            flag = addFlag(flag, View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
             if (dark)
             {
                 flag = clearFlag(flag, View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
