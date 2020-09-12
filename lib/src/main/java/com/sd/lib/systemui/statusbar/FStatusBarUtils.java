@@ -13,10 +13,19 @@ import com.sd.lib.systemui.common.FSystemUIUtils;
 
 public class FStatusBarUtils extends FSystemUIUtils
 {
-    /**
-     * 全透明
-     */
+    @Deprecated
     public static void setTransparent(Window window, boolean dark)
+    {
+        setTransparent(window);
+        setBrightness(window, dark);
+    }
+
+    /**
+     * 设置全透明
+     *
+     * @param window
+     */
+    public static void setTransparent(Window window)
     {
         if (Build.VERSION.SDK_INT >= 21)
         {
@@ -29,7 +38,16 @@ public class FStatusBarUtils extends FSystemUIUtils
         {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
 
+    /**
+     * 设置亮度
+     *
+     * @param window
+     * @param dark   true-暗色；false-亮色
+     */
+    public static void setBrightness(Window window, boolean dark)
+    {
         if (Build.VERSION.SDK_INT >= 23)
         {
             int flag = window.getDecorView().getSystemUiVisibility();
