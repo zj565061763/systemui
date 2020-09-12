@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sd.lib.context.FContext;
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 import com.sd.systemui.databinding.ActivityMainBinding;
@@ -29,8 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
-        FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
+        FStatusBarUtils.setTransparent(getWindow());
+        FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
+
+        FNavigationBarUtils.setTransparent(getWindow());
+        FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
 
         Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isStatusBarVisible(getWindow())
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)
@@ -44,26 +46,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == mBinding.btnChangeStatusBar)
         {
             mDarkStatusBar = !mDarkStatusBar;
-            FStatusBarUtils.setTransparent(getWindow(), mDarkStatusBar);
+            FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
         } else if (v == mBinding.btnChangeNavigationBar)
         {
             mDarkNavigationBar = !mDarkNavigationBar;
-            FNavigationBarUtils.setTransparent(getWindow(), mDarkNavigationBar);
+            FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
         } else if (v == mBinding.btnDialog)
         {
             if (mTestDialog == null)
                 mTestDialog = new TestDialog(this);
             mTestDialog.show();
-
-            v.postDelayed(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    // leak
-                    mTestDialog.setTransparent();
-                }
-            }, 2000);
         }
     }
 }
