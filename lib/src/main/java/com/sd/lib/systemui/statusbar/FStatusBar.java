@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 
+import com.sd.lib.systemui.common.FSystemUIUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -219,8 +221,8 @@ public class FStatusBar
             if (mCheckSystemUiVisibility)
             {
                 final int systemUiVisibility = activity.getWindow().getDecorView().getSystemUiVisibility();
-                final int value = systemUiVisibility & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-                if (value != View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                final boolean hasFullScreen = FSystemUIUtils.hasFlag(systemUiVisibility, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                if (!hasFullScreen)
                     return;
             }
 
@@ -324,12 +326,12 @@ public class FStatusBar
         @Override
         public void onViewAttachedToWindow(View v)
         {
-            removeConfig(mConfig);
         }
 
         @Override
         public void onViewDetachedFromWindow(View v)
         {
+            removeConfig(mConfig);
         }
 
         @Override
