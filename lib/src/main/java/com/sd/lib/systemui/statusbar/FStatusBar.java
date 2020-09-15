@@ -2,6 +2,7 @@ package com.sd.lib.systemui.statusbar;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 
@@ -126,10 +127,22 @@ public class FStatusBar
 
         if (config instanceof View)
         {
+            final View view = (View) config;
+
             LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
             if (holder == null)
             {
-                holder = new ViewConfigHolder(config, (View) config);
+                holder = new ViewConfigHolder(config, view);
+                mLifecycleConfigHolder.put(config, holder);
+            }
+        } else if (config instanceof Dialog)
+        {
+            final View view = ((Dialog) config).getWindow().getDecorView();
+
+            LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
+            if (holder == null)
+            {
+                holder = new ViewConfigHolder(config, view);
                 mLifecycleConfigHolder.put(config, holder);
             }
         }
