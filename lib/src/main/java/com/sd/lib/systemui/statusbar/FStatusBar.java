@@ -141,7 +141,7 @@ public class FStatusBar
     /**
      * 应用配置
      */
-    private void applyConfig()
+    void applyConfig()
     {
         final Config config = getActiveConfig();
         if (config == null)

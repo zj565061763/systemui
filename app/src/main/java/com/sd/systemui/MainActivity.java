@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        FStatusBarUtils.setTransparent(getWindow());
-        FNavigationBarUtils.setTransparent(getWindow());
+        FStatusBarUtils.setTransparent(this);
+        FNavigationBarUtils.setTransparent(this);
 
         Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isStatusBarVisible(getWindow())
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)

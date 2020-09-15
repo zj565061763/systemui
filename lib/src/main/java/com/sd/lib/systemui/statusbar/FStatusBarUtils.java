@@ -16,13 +16,15 @@ public class FStatusBarUtils extends FSystemUIUtils
     /**
      * 设置全透明
      *
-     * @param window
-     * @param dark   {@link #setBrightness(Window, boolean)}
+     * @param activity
      */
-    public static void setTransparent(Window window, boolean dark)
+    public static void setTransparent(Activity activity)
     {
-        setTransparent(window);
-        setBrightness(window, dark);
+        if (activity == null)
+            return;
+
+        setTransparent(activity.getWindow());
+        FStatusBar.get(activity).applyConfig();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sd.lib.systemui.navigationbar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -18,13 +19,11 @@ public class FNavigationBarUtils extends FSystemUIUtils
     /**
      * 设置全透明
      *
-     * @param window
-     * @param dark   {@link #setBrightness(Window, boolean)}
+     * @param activity
      */
-    public static void setTransparent(Window window, boolean dark)
+    public static void setTransparent(Activity activity)
     {
-        setTransparent(window);
-        setBrightness(window, dark);
+        setTransparent(activity.getWindow());
     }
 
     /**
