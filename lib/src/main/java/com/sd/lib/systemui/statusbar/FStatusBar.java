@@ -122,32 +122,58 @@ public class FStatusBar
         if (config == null)
             throw new NullPointerException("config is null");
 
-        mConfigHolder.remove(config);
-        mConfigHolder.add(config);
-
         if (config instanceof View)
         {
-            LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
-            if (holder == null)
-            {
-                final View view = (View) config;
-
-                holder = new ViewConfigHolder(config, view);
-                mLifecycleConfigHolder.put(config, holder);
-            }
+            final View view = (View) config;
+            addConfig(config, view);
         } else if (config instanceof Dialog)
+        {
+            final View view = ((Dialog) config).getWindow().getDecorView();
+            addConfig(config, view);
+        } else
+        {
+            addConfig(config, null);
+        }
+    }
+
+    /**
+     * 添加配置，添加后该配置立即生效
+     *
+     * @param config
+     * @param lifecycleView 生命周期view。不为null的话，则view被移除的时候，自动移除config
+     */
+    public void addConfig(Config config, View lifecycleView)
+    {
+        if (config == null)
+            throw new NullPointerException("config is null");
+
+        mConfigHolder.remove(config);
+        mConfigHolder.add(config);
+        applyConfig();
+
+        if (lifecycleView != null)
         {
             LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
             if (holder == null)
             {
-                final View view = ((Dialog) config).getWindow().getDecorView();
-
-                holder = new ViewConfigHolder(config, view);
+                holder = new ViewConfigHolder(config, lifecycleView);
                 mLifecycleConfigHolder.put(config, holder);
-            }
-        }
+            } else
+            {
+                if (holder.mLifecycle != lifecycleView)
+                {
+                    // 如果生命周期view发生了变化，先移除销毁旧对象
+                    removeLifecycleConfigIfNeed(config);
 
-        applyConfig();
+                    // 重新创建对象保存
+                    holder = new ViewConfigHolder(config, lifecycleView);
+                    mLifecycleConfigHolder.put(config, holder);
+                }
+            }
+        } else
+        {
+            removeLifecycleConfigIfNeed(config);
+        }
     }
 
     /**
@@ -162,12 +188,16 @@ public class FStatusBar
 
         if (mConfigHolder.remove(config))
         {
-            final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
-            if (holder != null)
-                holder.destroy();
-
+            removeLifecycleConfigIfNeed(config);
             applyConfig();
         }
+    }
+
+    private void removeLifecycleConfigIfNeed(Config config)
+    {
+        final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
+        if (holder != null)
+            holder.destroy();
     }
 
     /**
