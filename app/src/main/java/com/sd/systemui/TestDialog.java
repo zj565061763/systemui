@@ -29,7 +29,7 @@ public class TestDialog extends FDialoger implements FStatusBar.Config
     protected void onStart()
     {
         super.onStart();
-        FStatusBar.get(getOwnerActivity()).addConfig(this);
+        FStatusBar.get(getOwnerActivity()).applyConfig(this);
     }
 
     @Override

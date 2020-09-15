@@ -123,11 +123,11 @@ public class FStatusBar
     }
 
     /**
-     * 添加配置，添加后该配置立即生效
+     * 应用配置
      *
      * @param config
      */
-    public void addConfig(Config config)
+    public void applyConfig(Config config)
     {
         if (config == null)
             throw new NullPointerException("config is null");
@@ -135,24 +135,24 @@ public class FStatusBar
         if (config instanceof View)
         {
             final View view = (View) config;
-            addConfig(config, view);
+            applyConfig(config, view);
         } else if (config instanceof Dialog)
         {
             final View view = ((Dialog) config).getWindow().getDecorView();
-            addConfig(config, view);
+            applyConfig(config, view);
         } else
         {
-            addConfig(config, null);
+            applyConfig(config, null);
         }
     }
 
     /**
-     * 添加配置，添加后该配置立即生效
+     * 应用配置
      *
      * @param config
      * @param lifecycleView 生命周期view。不为null的话，则view被移除的时候，自动移除config
      */
-    public void addConfig(Config config, View lifecycleView)
+    public void applyConfig(Config config, View lifecycleView)
     {
         if (config == null)
             throw new NullPointerException("config is null");
