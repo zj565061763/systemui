@@ -1,18 +1,20 @@
 package com.sd.lib.systemui.statusbar;
 
 import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 public class FStatusBar
 {
-    private static final Map<Activity, FStatusBar> MAP_STATUS_BAR = new WeakHashMap<>();
+    private static final Map<Activity, FStatusBar> MAP_STATUS_BAR = new HashMap<>();
 
     private final WeakReference<Activity> mActivity;
     private Config mDefaultConfig;
@@ -21,10 +23,23 @@ public class FStatusBar
 
     private FStatusBar(Activity activity)
     {
+        if (activity == null)
+            throw new NullPointerException("activity is null");
+
+        if (activity.isFinishing())
+            throw new IllegalArgumentException("activity is finishing");
+
         mActivity = new WeakReference<>(activity);
+        activity.getApplication().registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
 
-    public static FStatusBar get(Activity activity)
+    /**
+     * 返回activity的状态栏
+     *
+     * @param activity
+     * @return
+     */
+    public static synchronized FStatusBar get(Activity activity)
     {
         if (activity == null)
             return null;
@@ -37,6 +52,14 @@ public class FStatusBar
                 MAP_STATUS_BAR.put(activity, statusBar);
         }
         return statusBar;
+    }
+
+    private static synchronized void remove(Activity activity)
+    {
+        if (activity == null)
+            return;
+
+        MAP_STATUS_BAR.remove(activity);
     }
 
     private Activity getActivity()
@@ -121,8 +144,53 @@ public class FStatusBar
         }
     }
 
+    private final Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks()
+    {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState)
+        {
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity)
+        {
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity)
+        {
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity)
+        {
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity)
+        {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState)
+        {
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity)
+        {
+            if (activity == getActivity())
+                remove(activity);
+        }
+    };
+
     public interface Config
     {
+        /**
+         * 返回状态栏亮度
+         *
+         * @return
+         */
         Brightness getStatusBarBrightness();
     }
 
