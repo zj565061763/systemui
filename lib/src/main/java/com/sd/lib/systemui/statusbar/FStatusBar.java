@@ -127,21 +127,21 @@ public class FStatusBar
 
         if (config instanceof View)
         {
-            final View view = (View) config;
-
             LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
             if (holder == null)
             {
+                final View view = (View) config;
+
                 holder = new ViewConfigHolder(config, view);
                 mLifecycleConfigHolder.put(config, holder);
             }
         } else if (config instanceof Dialog)
         {
-            final View view = ((Dialog) config).getWindow().getDecorView();
-
             LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
             if (holder == null)
             {
+                final View view = ((Dialog) config).getWindow().getDecorView();
+
                 holder = new ViewConfigHolder(config, view);
                 mLifecycleConfigHolder.put(config, holder);
             }
