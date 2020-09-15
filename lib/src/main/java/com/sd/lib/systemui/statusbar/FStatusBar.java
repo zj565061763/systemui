@@ -3,6 +3,7 @@ package com.sd.lib.systemui.statusbar;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class FStatusBar
     private Config mDefaultConfig;
 
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
+
+    private boolean mCheckSystemUiVisibility = true;
 
     private FStatusBar(Activity activity)
     {
@@ -74,6 +77,20 @@ public class FStatusBar
 
         final List<Config> list = new ArrayList<>(mConfigHolder);
         return list.get(list.size() - 1);
+    }
+
+    /**
+     * 设置是否检查Window#getDecorView()#getSystemUiVisibility()配置
+     *
+     * @param check
+     */
+    public void setCheckSystemUiVisibility(boolean check)
+    {
+        if (mCheckSystemUiVisibility != check)
+        {
+            mCheckSystemUiVisibility = check;
+            applyConfig();
+        }
     }
 
     /**
@@ -137,6 +154,14 @@ public class FStatusBar
         final Brightness brightness = config.getStatusBarBrightness();
         if (brightness != null)
         {
+            if (mCheckSystemUiVisibility)
+            {
+                final int systemUiVisibility = activity.getWindow().getDecorView().getSystemUiVisibility();
+                final int value = systemUiVisibility & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                if (value != View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                    return;
+            }
+
             if (brightness == Brightness.dark)
                 FStatusBarUtils.setBrightness(activity.getWindow(), true);
             else
