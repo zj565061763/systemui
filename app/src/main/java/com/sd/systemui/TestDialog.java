@@ -3,10 +3,10 @@ package com.sd.systemui;
 import android.app.Activity;
 
 import com.sd.lib.dialoger.impl.FDialoger;
+import com.sd.lib.systemui.statusbar.FStatusBar;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
-import com.sd.lib.utils.context.FResUtil;
 
-public class TestDialog extends FDialoger
+public class TestDialog extends FDialoger implements FStatusBar.Config
 {
     private int mSystemUiVisibility;
 
@@ -15,15 +15,28 @@ public class TestDialog extends FDialoger
         super(activity);
         setPadding(0, 0, 0, 0);
         setContentView(R.layout.dialog_test);
+
+        FStatusBarUtils.setTransparent(getWindow());
+    }
+
+    @Override
+    public FStatusBar.Brightness getStatusBarBrightness()
+    {
+        return FStatusBar.Brightness.dark;
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-        getWindow().getAttributes().height = FResUtil.getScreenHeight();
-        FStatusBarUtils.setTransparent(getWindow());
-        FStatusBarUtils.setBrightness(getOwnerActivity().getWindow(), false);
+        FStatusBar.get(getOwnerActivity()).addConfig(this);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        FStatusBar.get(getOwnerActivity()).removeConfig(this);
     }
 
     @Override

@@ -7,10 +7,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
+import com.sd.lib.systemui.statusbar.FStatusBar;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 import com.sd.systemui.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity implements FStatusBar.Config, View.OnClickListener
 {
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -35,14 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 + " statusBarHeight:" + FStatusBarUtils.getStatusBarHeight(this)
                 + " isNavigationBarVisible:" + FNavigationBarUtils.isNavigationBarVisible(this)
                 + " navigationBarHeight:" + FNavigationBarUtils.getNavigationBarHeight(this));
+
+        FStatusBar.get(this).setDefaultConfig(this);
     }
 
     @Override
-    protected void onResume()
+    public FStatusBar.Brightness getStatusBarBrightness()
     {
-        super.onResume();
-        FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
-        FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
+        return mDarkStatusBar ? FStatusBar.Brightness.dark : FStatusBar.Brightness.light;
     }
 
     @Override
