@@ -38,12 +38,4 @@ public class TestDialog extends FDialoger implements FStatusBar.Config
         super.onStop();
         FStatusBar.get(getOwnerActivity()).removeConfig(this);
     }
-
-    @Override
-    public void show()
-    {
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-        super.show();
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-    }
 }
