@@ -21,6 +21,7 @@ public class FStatusBar
     private Config mDefaultConfig;
 
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
+    private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new HashMap<>();
 
     private boolean mCheckSystemUiVisibility = true;
 
@@ -122,6 +123,17 @@ public class FStatusBar
 
         mConfigHolder.remove(config);
         mConfigHolder.add(config);
+
+        if (config instanceof View)
+        {
+            LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
+            if (holder == null)
+            {
+                holder = new ViewConfigHolder(config, (View) config);
+                mLifecycleConfigHolder.put(config, holder);
+            }
+        }
+
         applyConfig();
     }
 
@@ -136,7 +148,13 @@ public class FStatusBar
             return;
 
         if (mConfigHolder.remove(config))
+        {
+            final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
+            if (holder != null)
+                holder.destroy();
+
             applyConfig();
+        }
     }
 
     /**
@@ -210,16 +228,6 @@ public class FStatusBar
         }
     };
 
-    public interface Config
-    {
-        /**
-         * 返回状态栏亮度
-         *
-         * @return
-         */
-        Brightness getStatusBarBrightness();
-    }
-
     public enum Brightness
     {
         /**
@@ -230,5 +238,61 @@ public class FStatusBar
          * 亮色主题
          */
         light
+    }
+
+    public interface Config
+    {
+        /**
+         * 返回状态栏亮度
+         *
+         * @return
+         */
+        Brightness getStatusBarBrightness();
+    }
+
+    private abstract class LifecycleConfigHolder<T>
+    {
+        protected final Config mConfig;
+        protected final T mLifecycle;
+
+        public LifecycleConfigHolder(Config config, T lifecycle)
+        {
+            if (config == null)
+                throw new NullPointerException("config is null");
+
+            if (lifecycle == null)
+                throw new NullPointerException("lifecycle is null");
+
+            mConfig = config;
+            mLifecycle = lifecycle;
+        }
+
+        protected abstract void destroy();
+    }
+
+    private class ViewConfigHolder extends LifecycleConfigHolder<View> implements View.OnAttachStateChangeListener
+    {
+        public ViewConfigHolder(Config config, View lifecycle)
+        {
+            super(config, lifecycle);
+            lifecycle.addOnAttachStateChangeListener(this);
+        }
+
+        @Override
+        public void onViewAttachedToWindow(View v)
+        {
+            removeConfig(mConfig);
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(View v)
+        {
+        }
+
+        @Override
+        protected void destroy()
+        {
+            mLifecycle.removeOnAttachStateChangeListener(this);
+        }
     }
 }
