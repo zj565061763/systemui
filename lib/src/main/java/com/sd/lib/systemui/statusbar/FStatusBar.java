@@ -93,7 +93,7 @@ public class FStatusBar
         if (mCheckSystemUiVisibility != check)
         {
             mCheckSystemUiVisibility = check;
-            applyConfig();
+            applyActiveConfig();
         }
     }
 
@@ -110,7 +110,7 @@ public class FStatusBar
         if (mDefaultConfig != config)
         {
             mDefaultConfig = config;
-            applyConfig();
+            applyActiveConfig();
         }
     }
 
@@ -159,7 +159,7 @@ public class FStatusBar
 
         mConfigHolder.remove(config);
         mConfigHolder.add(config);
-        applyConfig();
+        applyActiveConfig();
 
         if (lifecycleView != null)
         {
@@ -199,7 +199,7 @@ public class FStatusBar
         if (mConfigHolder.remove(config))
         {
             removeLifecycleConfigIfNeed(config);
-            applyConfig();
+            applyActiveConfig();
         }
     }
 
@@ -211,9 +211,9 @@ public class FStatusBar
     }
 
     /**
-     * 应用配置
+     * 应用可用的配置
      */
-    void applyConfig()
+    void applyActiveConfig()
     {
         final Config config = getActiveConfig();
         applyConfigInternal(config);
