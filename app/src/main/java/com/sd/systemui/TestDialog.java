@@ -16,7 +16,7 @@ public class TestDialog extends FDialoger implements FStatusBar.Config
         setPadding(0, 0, 0, 0);
         setContentView(R.layout.dialog_test);
 
-        FStatusBarUtils.setTransparent(getWindow());
+        FStatusBarUtils.setTransparent(dialog());
     }
 
     @Override

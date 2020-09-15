@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
         if (v == mBinding.btnChangeStatusBar)
         {
             mDarkStatusBar = !mDarkStatusBar;
-            FStatusBarUtils.setBrightness(getWindow(), mDarkStatusBar);
+            FStatusBarUtils.setBrightness(this, mDarkStatusBar);
         } else if (v == mBinding.btnChangeNavigationBar)
         {
             mDarkNavigationBar = !mDarkNavigationBar;
-            FNavigationBarUtils.setBrightness(getWindow(), mDarkNavigationBar);
+            FNavigationBarUtils.setBrightness(this, mDarkNavigationBar);
         } else if (v == mBinding.btnDialog)
         {
             if (mTestDialog == null)

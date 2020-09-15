@@ -1,6 +1,7 @@
 package com.sd.lib.systemui.statusbar;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -30,9 +31,36 @@ public class FStatusBarUtils extends FSystemUIUtils
     /**
      * 设置全透明
      *
+     * @param dialog
+     */
+    public static void setTransparent(Dialog dialog)
+    {
+        if (dialog == null)
+            return;
+
+        setTransparent(dialog.getWindow());
+    }
+
+    /**
+     * 设置亮度
+     *
+     * @param activity
+     * @param dark
+     */
+    public static void setBrightness(Activity activity, boolean dark)
+    {
+        if (activity == null)
+            return;
+
+        setBrightness(activity.getWindow(), dark);
+    }
+
+    /**
+     * 设置全透明
+     *
      * @param window
      */
-    public static void setTransparent(Window window)
+    static void setTransparent(Window window)
     {
         if (Build.VERSION.SDK_INT >= 21)
         {
@@ -57,7 +85,7 @@ public class FStatusBarUtils extends FSystemUIUtils
      * @param window
      * @param dark   true-暗色；false-亮色
      */
-    public static void setBrightness(Window window, boolean dark)
+    static void setBrightness(Window window, boolean dark)
     {
         if (Build.VERSION.SDK_INT >= 23)
         {

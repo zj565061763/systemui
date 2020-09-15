@@ -23,7 +23,24 @@ public class FNavigationBarUtils extends FSystemUIUtils
      */
     public static void setTransparent(Activity activity)
     {
+        if (activity == null)
+            return;
+
         setTransparent(activity.getWindow());
+    }
+
+    /**
+     * 设置亮度
+     *
+     * @param activity
+     * @param dark
+     */
+    public static void setBrightness(Activity activity, boolean dark)
+    {
+        if (activity == null)
+            return;
+
+        setBrightness(activity.getWindow(), dark);
     }
 
     /**
@@ -31,7 +48,7 @@ public class FNavigationBarUtils extends FSystemUIUtils
      *
      * @param window
      */
-    public static void setTransparent(Window window)
+    static void setTransparent(Window window)
     {
         if (Build.VERSION.SDK_INT >= 21)
         {
@@ -57,7 +74,7 @@ public class FNavigationBarUtils extends FSystemUIUtils
      * @param window
      * @param dark   true-暗色；false-亮色
      */
-    public static void setBrightness(Window window, boolean dark)
+    static void setBrightness(Window window, boolean dark)
     {
         if (Build.VERSION.SDK_INT >= 21)
         {
