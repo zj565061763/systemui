@@ -115,6 +115,14 @@ public class FStatusBar
     }
 
     /**
+     * 应用默认配置
+     */
+    public void applyDefaultConfig()
+    {
+        applyConfigInternal(mDefaultConfig);
+    }
+
+    /**
      * 添加配置，添加后该配置立即生效
      *
      * @param config
@@ -208,6 +216,16 @@ public class FStatusBar
     void applyConfig()
     {
         final Config config = getActiveConfig();
+        applyConfigInternal(config);
+    }
+
+    /**
+     * 应用配置
+     *
+     * @param config
+     */
+    private void applyConfigInternal(Config config)
+    {
         if (config == null)
             return;
 
