@@ -120,8 +120,9 @@ public class FStatusBar
         if (config == null)
             throw new NullPointerException("config is null");
 
-        if (mConfigHolder.add(config))
-            applyConfig();
+        mConfigHolder.remove(config);
+        mConfigHolder.add(config);
+        applyConfig();
     }
 
     /**
