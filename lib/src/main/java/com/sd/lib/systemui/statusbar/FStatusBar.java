@@ -287,7 +287,10 @@ public class FStatusBar
         public void onActivityDestroyed(Activity activity)
         {
             if (activity == getActivity())
+            {
+                activity.getApplication().unregisterActivityLifecycleCallbacks(this);
                 remove(activity);
+            }
         }
     };
 
