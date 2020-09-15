@@ -11,4 +11,9 @@ public class FSystemUIUtils
     {
         return original & (~flag);
     }
+
+    public static boolean hasFlag(int original, int flag)
+    {
+        return (original & flag) == flag;
+    }
 }
