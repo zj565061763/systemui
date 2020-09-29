@@ -101,6 +101,23 @@ public class FStatusBarUtils extends FSystemUIUtils
         }
     }
 
+    static boolean isTransparent(Window window)
+    {
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+            final int flags = window.getDecorView().getSystemUiVisibility();
+            final boolean hasFullScreen = hasFlag(flags, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            return hasFullScreen;
+        } else if (Build.VERSION.SDK_INT >= 19)
+        {
+            final int flags = window.getAttributes().flags;
+            return hasFlag(flags, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else
+        {
+            return false;
+        }
+    }
+
     /**
      * 状态栏高度
      *
