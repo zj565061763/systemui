@@ -143,10 +143,16 @@ public class FStatusBarUtils extends FSystemUIUtils
      * @param context
      * @return
      */
-    public static int getStatusBarHeight(Context context)
+    public static int getBarHeight(Context context)
     {
         final Resources resources = context.getResources();
         final int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
+    }
+
+    @Deprecated
+    public static int getStatusBarHeight(Context context)
+    {
+        return getBarHeight(context);
     }
 }

@@ -24,7 +24,7 @@ public class FStatusBarPadding extends FSystemUIHandler
         final boolean isContentExtension = FStatusBarUtils.isContentExtension(window);
         if (isBarVisible && isContentExtension)
         {
-            final int barHeight = FStatusBarUtils.getStatusBarHeight(view.getContext());
+            final int barHeight = FStatusBarUtils.getBarHeight(view.getContext());
             if (barHeight != view.getPaddingTop())
                 view.setPadding(view.getPaddingLeft(), barHeight, view.getPaddingRight(), view.getPaddingBottom());
         }

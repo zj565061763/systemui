@@ -44,11 +44,11 @@ public class FStatusBarPaddingLayout extends FrameLayout
                 final boolean isContentExtension = FStatusBarUtils.isContentExtension(window);
                 if (isBarVisible && isContentExtension)
                 {
-                    padding = FStatusBarUtils.getStatusBarHeight(context);
+                    padding = FStatusBarUtils.getBarHeight(context);
                 }
             } else
             {
-                padding = FStatusBarUtils.getStatusBarHeight(context);
+                padding = FStatusBarUtils.getBarHeight(context);
             }
         }
 
