@@ -32,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
         FStatusBarUtils.setTransparent(this);
         FNavigationBarUtils.setTransparent(this);
 
-        Log.i(TAG, "isStatusBarVisible:" + FStatusBarUtils.isBarVisible(getWindow())
-                + " statusBarHeight:" + FStatusBarUtils.getBarHeight(this)
-                + " isNavigationBarVisible:" + FNavigationBarUtils.isBarVisible(this)
-                + " navigationBarHeight:" + FNavigationBarUtils.getBarHeight(this));
+        Log.i(TAG, "StatusBar isBarVisible:" + FStatusBarUtils.isBarVisible(getWindow())
+                + " getBarHeight:" + FStatusBarUtils.getBarHeight(this));
+
+        Log.i(TAG, "NavigationBar isBarVisible:" + FNavigationBarUtils.isBarVisible(this)
+                + " getBarHeight:" + FNavigationBarUtils.getBarHeight(this));
 
         FStatusBar.get(this).setDefaultConfig(this);
     }
