@@ -1,15 +1,17 @@
 package com.sd.lib.systemui.statusbar.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 
 public class FStatusBarPaddingLayout extends FrameLayout
 {
-    private boolean mPaddingStatusBar = true;
+    private boolean mIsCheckPadding = true;
     private int mSavePadding;
 
     public FStatusBarPaddingLayout(Context context, AttributeSet attrs)
@@ -18,25 +20,40 @@ public class FStatusBarPaddingLayout extends FrameLayout
         mSavePadding = getPaddingTop();
     }
 
-    public void setPaddingStatusBar(boolean padding)
+    public void setCheckPadding(boolean padding)
     {
-        if (mPaddingStatusBar != padding)
+        if (mIsCheckPadding != padding)
         {
-            mPaddingStatusBar = padding;
+            mIsCheckPadding = padding;
             checkPaddingStatusBar();
         }
     }
 
     private void checkPaddingStatusBar()
     {
-        if (mPaddingStatusBar)
+        int padding = mSavePadding;
+
+        if (mIsCheckPadding)
         {
-            final int barHeight = FStatusBarUtils.getActivityStatusBarHeight(getContext());
-            super.setPadding(getPaddingLeft(), barHeight, getPaddingRight(), getPaddingBottom());
-        } else
-        {
-            super.setPadding(getPaddingLeft(), mSavePadding, getPaddingRight(), getPaddingBottom());
+            final Context context = getContext();
+            if (context instanceof Activity)
+            {
+                final Activity activity = (Activity) context;
+                final Window window = activity.getWindow();
+                final boolean isStatusBarVisible = FStatusBarUtils.isStatusBarVisible(window);
+                final boolean isContentExtension = FStatusBarUtils.isContentExtension(window);
+                if (isStatusBarVisible && isContentExtension)
+                {
+                    padding = FStatusBarUtils.getStatusBarHeight(context);
+                }
+            } else
+            {
+                padding = FStatusBarUtils.getStatusBarHeight(context);
+            }
         }
+
+        if (getPaddingTop() != padding)
+            super.setPadding(getPaddingLeft(), padding, getPaddingRight(), getPaddingBottom());
     }
 
     @Override
