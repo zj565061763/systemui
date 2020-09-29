@@ -39,12 +39,24 @@ public class FStatusBar
     }
 
     /**
+     * 用{@link #of(Activity)}替代
+     *
+     * @param activity
+     * @return
+     */
+    @Deprecated
+    public static FStatusBar get(Activity activity)
+    {
+        return of(activity);
+    }
+
+    /**
      * 返回activity的状态栏
      *
      * @param activity
      * @return
      */
-    public static synchronized FStatusBar get(Activity activity)
+    public static synchronized FStatusBar of(Activity activity)
     {
         if (activity == null)
             return null;

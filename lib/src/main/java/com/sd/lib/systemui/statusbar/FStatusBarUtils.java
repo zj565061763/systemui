@@ -25,7 +25,7 @@ public class FStatusBarUtils extends FSystemUIUtils
             return;
 
         setTransparent(activity.getWindow());
-        FStatusBar.get(activity).applyActiveConfig();
+        FStatusBar.of(activity).applyActiveConfig();
     }
 
     /**

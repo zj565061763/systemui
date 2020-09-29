@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
                 + " isContentExtension:" + FNavigationBarUtils.isContentExtension(getWindow())
                 + " getBarHeight:" + FNavigationBarUtils.getBarHeight(this));
 
-        FStatusBar.get(this).setDefaultConfig(this);
+        FStatusBar.of(this).setDefaultConfig(this);
     }
 
     @Override
