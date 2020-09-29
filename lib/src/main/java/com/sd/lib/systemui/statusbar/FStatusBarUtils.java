@@ -119,6 +119,18 @@ public class FStatusBarUtils extends FSystemUIUtils
     }
 
     /**
+     * Window的状态栏是否可见
+     *
+     * @param window
+     * @return
+     */
+    public static boolean isStatusBarVisible(Window window)
+    {
+        final int flags = window.getAttributes().flags;
+        return !hasFlag(flags, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    /**
      * 状态栏高度
      *
      * @param context
@@ -129,43 +141,5 @@ public class FStatusBarUtils extends FSystemUIUtils
         final Resources resources = context.getResources();
         final int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
-    }
-
-    /**
-     * Window的状态栏高度
-     *
-     * @param window
-     * @param context
-     * @return
-     */
-    public static int getWindowStatusBarHeight(Window window, Context context)
-    {
-        return isStatusBarVisible(window) ? getStatusBarHeight(context) : 0;
-    }
-
-    /**
-     * 返回Activity的状态栏高度
-     *
-     * @param context
-     * @return
-     */
-    public static int getActivityStatusBarHeight(Context context)
-    {
-        if (context instanceof Activity)
-            return getWindowStatusBarHeight(((Activity) context).getWindow(), context);
-        else
-            return getStatusBarHeight(context);
-    }
-
-    /**
-     * Window的状态栏是否可见
-     *
-     * @param window
-     * @return
-     */
-    public static boolean isStatusBarVisible(Window window)
-    {
-        final int flags = window.getAttributes().flags;
-        return !hasFlag(flags, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }
