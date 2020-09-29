@@ -40,9 +40,9 @@ public class FStatusBarPaddingLayout extends FrameLayout
             {
                 final Activity activity = (Activity) context;
                 final Window window = activity.getWindow();
-                final boolean isStatusBarVisible = FStatusBarUtils.isStatusBarVisible(window);
+                final boolean isBarVisible = FStatusBarUtils.isBarVisible(window);
                 final boolean isContentExtension = FStatusBarUtils.isContentExtension(window);
-                if (isStatusBarVisible && isContentExtension)
+                if (isBarVisible && isContentExtension)
                 {
                     padding = FStatusBarUtils.getStatusBarHeight(context);
                 }

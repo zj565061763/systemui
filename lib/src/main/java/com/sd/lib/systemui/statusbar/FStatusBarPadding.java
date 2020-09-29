@@ -20,9 +20,9 @@ public class FStatusBarPadding extends FSystemUIHandler
     protected void checkView(View view)
     {
         final Window window = mWindow;
-        final boolean isStatusBarVisible = FStatusBarUtils.isStatusBarVisible(window);
+        final boolean isBarVisible = FStatusBarUtils.isBarVisible(window);
         final boolean isContentExtension = FStatusBarUtils.isContentExtension(window);
-        if (isStatusBarVisible && isContentExtension)
+        if (isBarVisible && isContentExtension)
         {
             final int barHeight = FStatusBarUtils.getStatusBarHeight(view.getContext());
             if (barHeight != view.getPaddingTop())

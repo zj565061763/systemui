@@ -131,7 +131,7 @@ public class FStatusBarUtils extends FSystemUIUtils
      * @param window
      * @return
      */
-    public static boolean isStatusBarVisible(Window window)
+    public static boolean isBarVisible(Window window)
     {
         final int flags = window.getAttributes().flags;
         return !hasFlag(flags, WindowManager.LayoutParams.FLAG_FULLSCREEN);
