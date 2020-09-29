@@ -90,7 +90,13 @@ public class FNavigationBarUtils extends FSystemUIUtils
         }
     }
 
-    static boolean isTransparent(Window window)
+    /**
+     * 内容是否延展到底部导航栏底部
+     *
+     * @param window
+     * @return
+     */
+    public static boolean isContentExtension(Window window)
     {
         if (Build.VERSION.SDK_INT >= 21)
         {

@@ -21,8 +21,8 @@ public class FNavigationBarPadding extends FSystemUIHandler
     {
         final Window window = mWindow;
         final boolean isNavigationBarVisible = FNavigationBarUtils.isNavigationBarVisible(view.getContext());
-        final boolean isTransparent = FNavigationBarUtils.isTransparent(window);
-        if (isNavigationBarVisible && isTransparent)
+        final boolean isContentExtension = FNavigationBarUtils.isContentExtension(window);
+        if (isNavigationBarVisible && isContentExtension)
         {
             final int barHeight = FNavigationBarUtils.getNavigationBarHeight(view.getContext());
             if (barHeight != view.getPaddingBottom())
