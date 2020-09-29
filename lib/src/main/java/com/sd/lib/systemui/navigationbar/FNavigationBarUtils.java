@@ -164,7 +164,7 @@ public class FNavigationBarUtils extends FSystemUIUtils
      * @param context
      * @return
      */
-    public static int getNavigationBarHeight(Context context)
+    public static int getBarHeight(Context context)
     {
         if (isBarVisible(context))
         {

@@ -44,16 +44,12 @@ public class FNavigationBarPaddingLayout extends FrameLayout
                 final boolean isContentExtension = FNavigationBarUtils.isContentExtension(window);
                 if (isBarVisible && isContentExtension)
                 {
-                    padding = FNavigationBarUtils.getNavigationBarHeight(context);
+                    padding = FNavigationBarUtils.getBarHeight(context);
                 }
             } else
             {
-                padding = FNavigationBarUtils.getNavigationBarHeight(context);
+                padding = FNavigationBarUtils.getBarHeight(context);
             }
-
-
-            final int barHeight = FNavigationBarUtils.getNavigationBarHeight(getContext());
-            super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), barHeight);
         }
 
         if (getPaddingBottom() != padding)
