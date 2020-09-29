@@ -31,11 +31,10 @@ public class FStatusBar
         if (activity == null)
             throw new NullPointerException("activity is null");
 
-        if (activity.isFinishing())
-            throw new IllegalArgumentException("activity is finishing");
-
         mActivity = new WeakReference<>(activity);
-        activity.getApplication().registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+
+        if (!activity.isFinishing())
+            activity.getApplication().registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
 
     /**
