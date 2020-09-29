@@ -111,7 +111,8 @@ public class FStatusBarUtils extends FSystemUIUtils
         } else if (Build.VERSION.SDK_INT >= 19)
         {
             final int flags = window.getAttributes().flags;
-            return hasFlag(flags, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            final boolean hasTranslucentStatus = hasFlag(flags, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            return hasTranslucentStatus;
         } else
         {
             return false;
