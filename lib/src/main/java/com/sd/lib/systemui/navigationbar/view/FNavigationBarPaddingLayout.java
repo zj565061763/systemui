@@ -40,7 +40,7 @@ public class FNavigationBarPaddingLayout extends FrameLayout
             {
                 final Activity activity = (Activity) context;
                 final Window window = activity.getWindow();
-                final boolean isBarVisible = FNavigationBarUtils.isNavigationBarVisible(context);
+                final boolean isBarVisible = FNavigationBarUtils.isBarVisible(context);
                 final boolean isContentExtension = FNavigationBarUtils.isContentExtension(window);
                 if (isBarVisible && isContentExtension)
                 {

@@ -121,22 +121,22 @@ public class FNavigationBarUtils extends FSystemUIUtils
      * @param context
      * @return
      */
-    public static boolean isNavigationBarVisible(Context context)
+    public static boolean isBarVisible(Context context)
     {
         final Resources resources = context.getResources();
         final int resourceId = resources.getIdentifier("config_showNavigationBar", "bool", "android");
         if (resourceId == 0)
             return !ViewConfiguration.get(context).hasPermanentMenuKey();
 
-        boolean isNavigationBarVisible = resources.getBoolean(resourceId);
+        boolean isVisible = resources.getBoolean(resourceId);
 
         final String navigationBarOverride = getNavigationBarOverride();
         if ("1".equals(navigationBarOverride))
         {
-            isNavigationBarVisible = false;
+            isVisible = false;
         }
 
-        return isNavigationBarVisible;
+        return isVisible;
     }
 
     private static String getNavigationBarOverride()
@@ -166,7 +166,7 @@ public class FNavigationBarUtils extends FSystemUIUtils
      */
     public static int getNavigationBarHeight(Context context)
     {
-        if (isNavigationBarVisible(context))
+        if (isBarVisible(context))
         {
             final Resources resources = context.getResources();
             final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
