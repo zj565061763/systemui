@@ -1,15 +1,17 @@
 package com.sd.lib.systemui.navigationbar.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 
 public class FNavigationBarPaddingLayout extends FrameLayout
 {
-    private boolean mPaddingNavigationBar = true;
+    private boolean mIsCheckPadding = true;
     private int mSavePadding;
 
     public FNavigationBarPaddingLayout(Context context, AttributeSet attrs)
@@ -18,25 +20,44 @@ public class FNavigationBarPaddingLayout extends FrameLayout
         mSavePadding = getPaddingBottom();
     }
 
-    public void setPaddingNavigationBar(boolean padding)
+    public void setCheckPadding(boolean padding)
     {
-        if (mPaddingNavigationBar != padding)
+        if (mIsCheckPadding != padding)
         {
-            mPaddingNavigationBar = padding;
+            mIsCheckPadding = padding;
             checkPaddingNavigationBar();
         }
     }
 
     private void checkPaddingNavigationBar()
     {
-        if (mPaddingNavigationBar)
+        int padding = mSavePadding;
+
+        if (mIsCheckPadding)
         {
+            final Context context = getContext();
+            if (context instanceof Activity)
+            {
+                final Activity activity = (Activity) context;
+                final Window window = activity.getWindow();
+                final boolean isBarVisible = FNavigationBarUtils.isNavigationBarVisible(context);
+                final boolean isContentExtension = FNavigationBarUtils.isContentExtension(window);
+                if (isBarVisible && isContentExtension)
+                {
+                    padding = FNavigationBarUtils.getNavigationBarHeight(context);
+                }
+            } else
+            {
+                padding = FNavigationBarUtils.getNavigationBarHeight(context);
+            }
+
+
             final int barHeight = FNavigationBarUtils.getNavigationBarHeight(getContext());
             super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), barHeight);
-        } else
-        {
-            super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), mSavePadding);
         }
+
+        if (getPaddingBottom() != padding)
+            super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), padding);
     }
 
     @Override
