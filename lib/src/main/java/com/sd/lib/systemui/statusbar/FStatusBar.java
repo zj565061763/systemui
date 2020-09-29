@@ -6,8 +6,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 
-import com.sd.lib.systemui.common.FSystemUIUtils;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +24,7 @@ public class FStatusBar
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
     private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new HashMap<>();
 
-    private boolean mCheckSystemUiVisibility = true;
+    private boolean mCheckContentExtension = true;
 
     private FStatusBar(Activity activity)
     {
@@ -84,15 +82,15 @@ public class FStatusBar
     }
 
     /**
-     * 设置是否检查Window#getDecorView()#getSystemUiVisibility()配置
+     * 检查内容是否延展到状态栏底部
      *
      * @param check
      */
-    public void setCheckSystemUiVisibility(boolean check)
+    public void setCheckContentExtension(boolean check)
     {
-        if (mCheckSystemUiVisibility != check)
+        if (mCheckContentExtension != check)
         {
-            mCheckSystemUiVisibility = check;
+            mCheckContentExtension = check;
             applyActiveConfig();
         }
     }
@@ -236,11 +234,10 @@ public class FStatusBar
         final Brightness brightness = config.getStatusBarBrightness();
         if (brightness != null)
         {
-            if (mCheckSystemUiVisibility)
+            if (mCheckContentExtension)
             {
-                final int systemUiVisibility = activity.getWindow().getDecorView().getSystemUiVisibility();
-                final boolean hasFullScreen = FSystemUIUtils.hasFlag(systemUiVisibility, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                if (!hasFullScreen)
+                final boolean isContentExtension = FStatusBarUtils.isContentExtension(activity.getWindow());
+                if (!isContentExtension)
                     return;
             }
 
