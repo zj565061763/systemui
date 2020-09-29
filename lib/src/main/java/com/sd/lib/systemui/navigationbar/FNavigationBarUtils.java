@@ -90,22 +90,22 @@ public class FNavigationBarUtils extends FSystemUIUtils
         }
     }
 
-    /**
-     * 底部导航栏高度
-     *
-     * @param context
-     * @return
-     */
-    public static int getNavigationBarHeight(Context context)
+    static boolean isTransparent(Window window)
     {
-        if (isNavigationBarVisible(context))
+        if (Build.VERSION.SDK_INT >= 21)
         {
-            final Resources resources = context.getResources();
-            final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
+            final int flags = window.getDecorView().getSystemUiVisibility();
+            final boolean hasFullScreen = hasFlag(flags, View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            final boolean hasHideNavigation = hasFlag(flags, View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            return hasFullScreen && hasHideNavigation;
+        } else if (Build.VERSION.SDK_INT >= 19)
+        {
+            final int flags = window.getAttributes().flags;
+            final boolean hasTranslucentNavigation = hasFlag(flags, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            return hasTranslucentNavigation;
         } else
         {
-            return 0;
+            return false;
         }
     }
 
@@ -150,5 +150,24 @@ public class FNavigationBarUtils extends FSystemUIUtils
             }
         }
         return result;
+    }
+
+    /**
+     * 底部导航栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getNavigationBarHeight(Context context)
+    {
+        if (isNavigationBarVisible(context))
+        {
+            final Resources resources = context.getResources();
+            final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
+        } else
+        {
+            return 0;
+        }
     }
 }
