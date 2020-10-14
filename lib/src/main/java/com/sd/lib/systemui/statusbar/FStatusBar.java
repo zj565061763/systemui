@@ -175,6 +175,9 @@ public class FStatusBar
         if (config == null)
             throw new NullPointerException("config is null");
 
+        if (config == mDefaultConfig)
+            throw new IllegalArgumentException("can not apply default config here");
+
         if (config == getActiveConfig())
             return;
 
