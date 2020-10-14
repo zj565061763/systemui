@@ -23,6 +23,7 @@ public class FStatusBar
 
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
     private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new HashMap<>();
+    private Config mLastConfig;
 
     private boolean mCheckContentExtension = true;
 
@@ -86,10 +87,16 @@ public class FStatusBar
     private Config getActiveConfig()
     {
         if (mConfigHolder.isEmpty())
+        {
+            mLastConfig = null;
             return mDefaultConfig;
+        }
 
         final List<Config> list = new ArrayList<>(mConfigHolder);
-        return list.get(list.size() - 1);
+        final Config lastConfig = list.get(list.size() - 1);
+
+        mLastConfig = lastConfig;
+        return lastConfig;
     }
 
     /**
@@ -178,7 +185,7 @@ public class FStatusBar
         if (config == mDefaultConfig)
             throw new IllegalArgumentException("can not apply default config here");
 
-        if (config == getActiveConfig())
+        if (config == mLastConfig)
             return;
 
         mConfigHolder.remove(config);
