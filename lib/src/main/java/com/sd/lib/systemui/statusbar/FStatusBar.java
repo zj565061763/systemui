@@ -132,6 +132,15 @@ public class FStatusBar
     }
 
     /**
+     * 应用可用的配置
+     */
+    public void applyActiveConfig()
+    {
+        final Config config = getActiveConfig();
+        applyConfigInternal(config);
+    }
+
+    /**
      * 应用配置
      *
      * @param config
@@ -165,6 +174,9 @@ public class FStatusBar
     {
         if (config == null)
             throw new NullPointerException("config is null");
+
+        if (config == getActiveConfig())
+            return;
 
         mConfigHolder.remove(config);
         mConfigHolder.add(config);
@@ -217,15 +229,6 @@ public class FStatusBar
         final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
         if (holder != null)
             holder.destroy();
-    }
-
-    /**
-     * 应用可用的配置
-     */
-    void applyActiveConfig()
-    {
-        final Config config = getActiveConfig();
-        applyConfigInternal(config);
     }
 
     /**
