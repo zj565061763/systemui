@@ -20,6 +20,11 @@ public class FStatusBarPaddingLayout extends FrameLayout
         mSavePadding = getPaddingTop();
     }
 
+    /**
+     * 设置是否检查状态栏padding
+     *
+     * @param padding
+     */
     public void setCheckPadding(boolean padding)
     {
         if (mIsCheckPadding != padding)
@@ -60,6 +65,10 @@ public class FStatusBarPaddingLayout extends FrameLayout
     public void setPadding(int left, int top, int right, int bottom)
     {
         mSavePadding = top;
+
+        if (mIsCheckPadding)
+            top = getPaddingTop();
+        super.setPadding(left, top, right, bottom);
     }
 
     @Override
