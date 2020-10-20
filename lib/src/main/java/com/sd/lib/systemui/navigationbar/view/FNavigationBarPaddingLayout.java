@@ -20,6 +20,11 @@ public class FNavigationBarPaddingLayout extends FrameLayout
         mSavePadding = getPaddingBottom();
     }
 
+    /**
+     * 设置是否检查底部导航栏padding
+     *
+     * @param padding
+     */
     public void setCheckPadding(boolean padding)
     {
         if (mIsCheckPadding != padding)
@@ -60,6 +65,10 @@ public class FNavigationBarPaddingLayout extends FrameLayout
     public void setPadding(int left, int top, int right, int bottom)
     {
         mSavePadding = bottom;
+
+        if (mIsCheckPadding)
+            bottom = getPaddingBottom();
+        super.setPadding(left, top, right, bottom);
     }
 
     @Override
