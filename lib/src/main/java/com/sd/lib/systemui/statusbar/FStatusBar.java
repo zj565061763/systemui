@@ -88,6 +88,16 @@ public class FStatusBar
     }
 
     /**
+     * 返回最后设置的配置
+     *
+     * @return
+     */
+    public Config getLastConfig()
+    {
+        return mLastConfig;
+    }
+
+    /**
      * 检查内容是否延展到状态栏底部
      *
      * @param check
@@ -173,11 +183,12 @@ public class FStatusBar
         if (config == mDefaultConfig)
             throw new IllegalArgumentException("can not apply default config here");
 
-        if (config == mLastConfig)
-            return;
+        if (config != mLastConfig)
+        {
+            mConfigHolder.remove(config);
+            mConfigHolder.add(config);
+        }
 
-        mConfigHolder.remove(config);
-        mConfigHolder.add(config);
         applyActiveConfig();
 
         if (lifecycleView != null)
