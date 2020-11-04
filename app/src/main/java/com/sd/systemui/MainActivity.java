@@ -43,9 +43,16 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
                 + " isContentExtension:" + FNavigationBarUtils.isContentExtension(getWindow())
                 + " getBarHeight:" + FNavigationBarUtils.getBarHeight(this));
 
-        Log.i(TAG, "hasNotch:" + FSystemUIUtils.hasNotch(this));
-
         FStatusBar.of(this).setDefaultConfig(this);
+
+        getWindow().getDecorView().post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.i(TAG, "hasNotch:" + FSystemUIUtils.hasNotch(MainActivity.this));
+            }
+        });
     }
 
     @Override

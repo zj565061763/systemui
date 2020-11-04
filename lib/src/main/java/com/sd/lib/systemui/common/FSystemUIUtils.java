@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.DisplayCutout;
+import android.view.WindowInsets;
 
 import java.lang.reflect.Method;
 
@@ -36,8 +37,13 @@ public class FSystemUIUtils
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
         {
-            final DisplayCutout displayCutout = activity.getWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
-            return displayCutout != null;
+            final WindowInsets windowInsets = activity.getWindow().getDecorView().getRootWindowInsets();
+            if (windowInsets != null)
+            {
+                final DisplayCutout displayCutout = windowInsets.getDisplayCutout();
+                return displayCutout != null;
+            }
+            return false;
         } else
         {
             final String manufacturer = Build.MANUFACTURER;
