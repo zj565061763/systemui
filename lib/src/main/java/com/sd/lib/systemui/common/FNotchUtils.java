@@ -7,8 +7,12 @@ import android.text.TextUtils;
 import android.view.DisplayCutout;
 import android.view.WindowInsets;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * 刘海屏工具类
+ */
 public class FNotchUtils
 {
     /**
@@ -45,6 +49,9 @@ public class FNotchUtils
             } else if ("huawei".equalsIgnoreCase(manufacturer))
             {
                 return hasNotchHuaWei();
+            } else if ("meizu".equalsIgnoreCase(manufacturer))
+            {
+                return hasNotchMeiZu();
             } else
             {
                 return false;
@@ -124,6 +131,28 @@ public class FNotchUtils
             final Method method = clazz.getMethod("hasNotchInScreen");
             method.setAccessible(true);
             final Object result = method.invoke(clazz);
+
+            return (boolean) result;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 判断魅族是否有刘海屏
+     *
+     * @return
+     */
+    private static boolean hasNotchMeiZu()
+    {
+        try
+        {
+            final Class<?> clazz = Class.forName("flyme.config.FlymeFeature");
+            final Field field = clazz.getDeclaredField("IS_FRINGE_DEVICE");
+            field.setAccessible(true);
+            final Object result = field.get(null);
 
             return (boolean) result;
         } catch (Exception e)
