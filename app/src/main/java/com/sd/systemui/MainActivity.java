@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sd.lib.systemui.common.FSystemUIUtils;
+import com.sd.lib.systemui.common.FNotchUtils;
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 import com.sd.lib.systemui.statusbar.FStatusBar;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
             @Override
             public void run()
             {
-                Log.i(TAG, "hasNotch:" + FSystemUIUtils.hasNotch(MainActivity.this));
+                Log.i(TAG, "hasNotch:" + FNotchUtils.hasNotch(MainActivity.this));
             }
         });
     }
