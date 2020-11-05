@@ -10,11 +10,11 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.sd.lib.systemui.common.FSystemUIUtils;
+import com.sd.lib.systemui.common.FFlagUtils;
 
 import java.lang.reflect.Method;
 
-public class FNavigationBarUtils extends FSystemUIUtils
+public class FNavigationBarUtils extends FFlagUtils
 {
     /**
      * 设置全透明

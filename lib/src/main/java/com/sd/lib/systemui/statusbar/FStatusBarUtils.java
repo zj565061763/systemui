@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.sd.lib.systemui.common.FSystemUIUtils;
+import com.sd.lib.systemui.common.FFlagUtils;
 
-public class FStatusBarUtils extends FSystemUIUtils
+public class FStatusBarUtils extends FFlagUtils
 {
     /**
      * 设置全透明

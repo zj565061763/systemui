@@ -14,19 +14,4 @@ public class FSystemUIUtils
         window.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         return metrics;
     }
-
-    public static int addFlag(int original, int flag)
-    {
-        return original | flag;
-    }
-
-    public static int clearFlag(int original, int flag)
-    {
-        return original & (~flag);
-    }
-
-    public static boolean hasFlag(int original, int flag)
-    {
-        return (original & flag) == flag;
-    }
 }
