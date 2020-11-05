@@ -1,14 +1,13 @@
 package com.sd.systemui;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sd.lib.systemui.common.FNotchUtils;
+import com.sd.lib.systemui.common.FSystemUIUtils;
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 import com.sd.lib.systemui.statusbar.FStatusBar;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
@@ -47,14 +46,7 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
 
         FStatusBar.of(this).setDefaultConfig(this);
 
-
-        WindowManager windowManager = getWindow().getWindowManager();
-        DisplayMetrics metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getRealMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        Log.i(TAG, "heightPixels:" + getResources().getDisplayMetrics().heightPixels + " realHeight:" + height);
+        Log.i(TAG, "heightPixels:" + getResources().getDisplayMetrics().heightPixels + " realHeight:" + FSystemUIUtils.getRealMetrics(getWindow()).heightPixels);
         getWindow().getDecorView().post(new Runnable()
         {
             @Override
