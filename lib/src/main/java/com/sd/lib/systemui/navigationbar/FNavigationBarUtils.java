@@ -166,14 +166,8 @@ public class FNavigationBarUtils extends FSystemUIUtils
      */
     public static int getBarHeight(Context context)
     {
-        if (isBarVisible(context))
-        {
-            final Resources resources = context.getResources();
-            final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-            return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
-        } else
-        {
-            return 0;
-        }
+        final Resources resources = context.getResources();
+        final int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        return resourceId == 0 ? 0 : resources.getDimensionPixelSize(resourceId);
     }
 }
