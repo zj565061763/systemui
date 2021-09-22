@@ -16,8 +16,6 @@ import java.lang.reflect.Method;
 public class FNotchUtils {
     /**
      * 是否有刘海屏
-     *
-     * @return
      */
     public static boolean hasNotch(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -52,9 +50,6 @@ public class FNotchUtils {
     /**
      * 判断oppo是否有刘海屏
      * https://open.oppomobile.com/wiki/doc#id=10159
-     *
-     * @param context
-     * @return
      */
     private static boolean hasNotchOPPO(Context context) {
         return context.getPackageManager().hasSystemFeature("com.oppo.feature.screen.heteromorphism");
@@ -63,8 +58,6 @@ public class FNotchUtils {
     /**
      * 判断vivo是否有刘海屏
      * https://swsdl.vivo.com.cn/appstore/developer/uploadfile/20180328/20180328152252602.pdf
-     *
-     * @return
      */
     private static boolean hasNotchVIVO() {
         try {
@@ -72,7 +65,6 @@ public class FNotchUtils {
             final Method method = clazz.getMethod("isFeatureSupport", int.class);
             method.setAccessible(true);
             final Object result = method.invoke(clazz, 0x20);
-
             return (boolean) result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,8 +75,6 @@ public class FNotchUtils {
     /**
      * 判断xiaomi是否有刘海屏
      * https://dev.mi.com/console/doc/detail?pId=1293
-     *
-     * @return
      */
     private static boolean hasNotchXiaoMi() {
         try {
@@ -92,7 +82,6 @@ public class FNotchUtils {
             final Method method = clazz.getMethod("getInt", String.class, int.class);
             method.setAccessible(true);
             final Object result = method.invoke(clazz, "ro.miui.notch", 0);
-
             return ((int) result) == 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,8 +92,6 @@ public class FNotchUtils {
     /**
      * 判断华为是否有刘海屏
      * https://developer.huawei.com/consumer/cn/doc/50114
-     *
-     * @return
      */
     private static boolean hasNotchHuaWei() {
         try {
@@ -112,7 +99,6 @@ public class FNotchUtils {
             final Method method = clazz.getMethod("hasNotchInScreen");
             method.setAccessible(true);
             final Object result = method.invoke(clazz);
-
             return (boolean) result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,8 +108,6 @@ public class FNotchUtils {
 
     /**
      * 判断魅族是否有刘海屏
-     *
-     * @return
      */
     private static boolean hasNotchMeiZu() {
         try {
@@ -131,7 +115,6 @@ public class FNotchUtils {
             final Field field = clazz.getDeclaredField("IS_FRINGE_DEVICE");
             field.setAccessible(true);
             final Object result = field.get(null);
-
             return (boolean) result;
         } catch (Exception e) {
             e.printStackTrace();
