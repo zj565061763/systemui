@@ -13,8 +13,7 @@ import com.sd.lib.systemui.statusbar.FStatusBar;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 import com.sd.systemui.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements FStatusBar.Config, View.OnClickListener
-{
+public class MainActivity extends AppCompatActivity implements FStatusBar.Config, View.OnClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainBinding mBinding;
@@ -25,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
     private TestDialog mTestDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
@@ -47,37 +45,31 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
         FStatusBar.of(this).setDefaultConfig(this);
 
         Log.i(TAG, "heightPixels:" + getResources().getDisplayMetrics().heightPixels + " realHeight:" + FSystemUIUtils.getRealMetrics(getWindow()).heightPixels);
-        getWindow().getDecorView().post(new Runnable()
-        {
+        getWindow().getDecorView().post(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Log.i(TAG, "hasNotch:" + FNotchUtils.hasNotch(MainActivity.this));
             }
         });
     }
 
     @Override
-    public FStatusBar.Brightness getStatusBarBrightness()
-    {
+    public FStatusBar.Brightness getStatusBarBrightness() {
         return mDarkStatusBar ? FStatusBar.Brightness.dark : FStatusBar.Brightness.light;
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if (v == mBinding.btnChangeStatusBar)
-        {
+    public void onClick(View v) {
+        if (v == mBinding.btnChangeStatusBar) {
             mDarkStatusBar = !mDarkStatusBar;
             FStatusBarUtils.setBrightness(this, mDarkStatusBar);
-        } else if (v == mBinding.btnChangeNavigationBar)
-        {
+        } else if (v == mBinding.btnChangeNavigationBar) {
             mDarkNavigationBar = !mDarkNavigationBar;
             FNavigationBarUtils.setBrightness(this, mDarkNavigationBar);
-        } else if (v == mBinding.btnDialog)
-        {
-            if (mTestDialog == null)
+        } else if (v == mBinding.btnDialog) {
+            if (mTestDialog == null) {
                 mTestDialog = new TestDialog(this);
+            }
             mTestDialog.show();
         }
     }

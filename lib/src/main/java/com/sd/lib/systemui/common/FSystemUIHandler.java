@@ -5,8 +5,7 @@ import android.view.View;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public abstract class FSystemUIHandler
-{
+public abstract class FSystemUIHandler {
     private final Map<View, String> mViewHolder = new WeakHashMap<>();
 
     /**
@@ -14,13 +13,14 @@ public abstract class FSystemUIHandler
      *
      * @param view
      */
-    public void addView(View view)
-    {
-        if (view == null)
+    public void addView(View view) {
+        if (view == null) {
             return;
+        }
 
-        if (mViewHolder.containsKey(view))
+        if (mViewHolder.containsKey(view)) {
             return;
+        }
 
         mViewHolder.put(view, "");
         checkView(view);
@@ -33,22 +33,19 @@ public abstract class FSystemUIHandler
      *
      * @param view
      */
-    public void removeView(View view)
-    {
-        if (view == null)
+    public void removeView(View view) {
+        if (view == null) {
             return;
+        }
 
-        if (mViewHolder.remove(view) != null)
-        {
+        if (mViewHolder.remove(view) != null) {
             view.removeOnLayoutChangeListener(mOnLayoutChangeListener);
         }
     }
 
-    private final View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener()
-    {
+    private final View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom)
-        {
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
             checkView(v);
         }
     };

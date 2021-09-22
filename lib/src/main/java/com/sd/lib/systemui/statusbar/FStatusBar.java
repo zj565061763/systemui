@@ -14,8 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-public class FStatusBar
-{
+public class FStatusBar {
     private static final Map<Activity, FStatusBar> MAP_STATUS_BAR = new HashMap<>();
 
     private final WeakReference<Activity> mActivity;
@@ -27,15 +26,16 @@ public class FStatusBar
 
     private boolean mCheckContentExtension = true;
 
-    private FStatusBar(Activity activity)
-    {
-        if (activity == null)
+    private FStatusBar(Activity activity) {
+        if (activity == null) {
             throw new NullPointerException("activity is null");
+        }
 
         mActivity = new WeakReference<>(activity);
 
-        if (!activity.isFinishing())
+        if (!activity.isFinishing()) {
             activity.getApplication().registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+        }
     }
 
     /**
@@ -44,38 +44,35 @@ public class FStatusBar
      * @param activity
      * @return
      */
-    public static synchronized FStatusBar of(Activity activity)
-    {
-        if (activity == null)
+    public static synchronized FStatusBar of(Activity activity) {
+        if (activity == null) {
             return null;
+        }
 
         FStatusBar statusBar = MAP_STATUS_BAR.get(activity);
-        if (statusBar == null)
-        {
+        if (statusBar == null) {
             statusBar = new FStatusBar(activity);
-            if (!activity.isFinishing())
+            if (!activity.isFinishing()) {
                 MAP_STATUS_BAR.put(activity, statusBar);
+            }
         }
         return statusBar;
     }
 
-    private static synchronized void remove(Activity activity)
-    {
-        if (activity == null)
+    private static synchronized void remove(Activity activity) {
+        if (activity == null) {
             return;
+        }
 
         MAP_STATUS_BAR.remove(activity);
     }
 
-    private Activity getActivity()
-    {
+    private Activity getActivity() {
         return mActivity.get();
     }
 
-    private Config getActiveConfig()
-    {
-        if (mConfigHolder.isEmpty())
-        {
+    private Config getActiveConfig() {
+        if (mConfigHolder.isEmpty()) {
             mLastConfig = null;
             return mDefaultConfig;
         }
@@ -92,8 +89,7 @@ public class FStatusBar
      *
      * @return
      */
-    public Config getLastConfig()
-    {
+    public Config getLastConfig() {
         return mLastConfig;
     }
 
@@ -102,10 +98,8 @@ public class FStatusBar
      *
      * @param check
      */
-    public void setCheckContentExtension(boolean check)
-    {
-        if (mCheckContentExtension != check)
-        {
+    public void setCheckContentExtension(boolean check) {
+        if (mCheckContentExtension != check) {
             mCheckContentExtension = check;
             applyActiveConfig();
         }
@@ -116,13 +110,12 @@ public class FStatusBar
      *
      * @param config
      */
-    public void setDefaultConfig(Config config)
-    {
-        if (config == null)
+    public void setDefaultConfig(Config config) {
+        if (config == null) {
             throw new NullPointerException("config is null");
+        }
 
-        if (mDefaultConfig != config)
-        {
+        if (mDefaultConfig != config) {
             mDefaultConfig = config;
             applyActiveConfig();
         }
@@ -131,16 +124,14 @@ public class FStatusBar
     /**
      * 应用默认配置
      */
-    public void applyDefaultConfig()
-    {
+    public void applyDefaultConfig() {
         applyConfigInternal(mDefaultConfig);
     }
 
     /**
      * 应用可用的配置
      */
-    public void applyActiveConfig()
-    {
+    public void applyActiveConfig() {
         final Config config = getActiveConfig();
         applyConfigInternal(config);
     }
@@ -150,21 +141,18 @@ public class FStatusBar
      *
      * @param config
      */
-    public void applyConfig(Config config)
-    {
-        if (config == null)
+    public void applyConfig(Config config) {
+        if (config == null) {
             throw new NullPointerException("config is null");
+        }
 
-        if (config instanceof View)
-        {
+        if (config instanceof View) {
             final View view = (View) config;
             applyConfig(config, view);
-        } else if (config instanceof Dialog)
-        {
+        } else if (config instanceof Dialog) {
             final View view = ((Dialog) config).getWindow().getDecorView();
             applyConfig(config, view);
-        } else
-        {
+        } else {
             applyConfig(config, null);
         }
     }
@@ -175,33 +163,29 @@ public class FStatusBar
      * @param config
      * @param lifecycleView 生命周期view。不为null的话，则view被移除的时候，自动移除config
      */
-    public void applyConfig(Config config, View lifecycleView)
-    {
-        if (config == null)
+    public void applyConfig(Config config, View lifecycleView) {
+        if (config == null) {
             throw new NullPointerException("config is null");
+        }
 
-        if (config == mDefaultConfig)
+        if (config == mDefaultConfig) {
             throw new IllegalArgumentException("can not apply default config here");
+        }
 
-        if (config != mLastConfig)
-        {
+        if (config != mLastConfig) {
             mConfigHolder.remove(config);
             mConfigHolder.add(config);
         }
 
         applyActiveConfig();
 
-        if (lifecycleView != null)
-        {
+        if (lifecycleView != null) {
             LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
-            if (holder == null)
-            {
+            if (holder == null) {
                 holder = new ViewConfigHolder(config, lifecycleView);
                 mLifecycleConfigHolder.put(config, holder);
-            } else
-            {
-                if (holder.mLifecycle != lifecycleView)
-                {
+            } else {
+                if (holder.mLifecycle != lifecycleView) {
                     // 如果生命周期view发生了变化，先移除销毁旧对象
                     removeLifecycleConfigIfNeed(config);
 
@@ -210,8 +194,7 @@ public class FStatusBar
                     mLifecycleConfigHolder.put(config, holder);
                 }
             }
-        } else
-        {
+        } else {
             removeLifecycleConfigIfNeed(config);
         }
     }
@@ -221,23 +204,22 @@ public class FStatusBar
      *
      * @param config
      */
-    public void removeConfig(Config config)
-    {
-        if (config == null)
+    public void removeConfig(Config config) {
+        if (config == null) {
             return;
+        }
 
-        if (mConfigHolder.remove(config))
-        {
+        if (mConfigHolder.remove(config)) {
             removeLifecycleConfigIfNeed(config);
             applyActiveConfig();
         }
     }
 
-    private void removeLifecycleConfigIfNeed(Config config)
-    {
+    private void removeLifecycleConfigIfNeed(Config config) {
         final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
-        if (holder != null)
+        if (holder != null) {
             holder.destroy();
+        }
     }
 
     /**
@@ -245,77 +227,68 @@ public class FStatusBar
      *
      * @param config
      */
-    private void applyConfigInternal(Config config)
-    {
-        if (config == null)
+    private void applyConfigInternal(Config config) {
+        if (config == null) {
             return;
+        }
 
         final Activity activity = getActivity();
-        if (activity == null || activity.isFinishing())
+        if (activity == null || activity.isFinishing()) {
             return;
+        }
 
         final Brightness brightness = config.getStatusBarBrightness();
-        if (brightness != null)
-        {
-            if (mCheckContentExtension)
-            {
+        if (brightness != null) {
+            if (mCheckContentExtension) {
                 final boolean isContentExtension = FStatusBarUtils.isContentExtension(activity.getWindow());
-                if (!isContentExtension)
+                if (!isContentExtension) {
                     return;
+                }
             }
 
-            if (brightness == Brightness.dark)
+            if (brightness == Brightness.dark) {
                 FStatusBarUtils.setBrightness(activity.getWindow(), true);
-            else
+            } else {
                 FStatusBarUtils.setBrightness(activity.getWindow(), false);
+            }
         }
     }
 
-    private final Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks()
-    {
+    private final Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
         @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState)
-        {
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         }
 
         @Override
-        public void onActivityStarted(Activity activity)
-        {
+        public void onActivityStarted(Activity activity) {
         }
 
         @Override
-        public void onActivityResumed(Activity activity)
-        {
+        public void onActivityResumed(Activity activity) {
         }
 
         @Override
-        public void onActivityPaused(Activity activity)
-        {
+        public void onActivityPaused(Activity activity) {
         }
 
         @Override
-        public void onActivityStopped(Activity activity)
-        {
+        public void onActivityStopped(Activity activity) {
         }
 
         @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState)
-        {
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
         }
 
         @Override
-        public void onActivityDestroyed(Activity activity)
-        {
-            if (activity == getActivity())
-            {
+        public void onActivityDestroyed(Activity activity) {
+            if (activity == getActivity()) {
                 activity.getApplication().unregisterActivityLifecycleCallbacks(this);
                 remove(activity);
             }
         }
     };
 
-    public enum Brightness
-    {
+    public enum Brightness {
         /**
          * 暗色主题
          */
@@ -326,8 +299,7 @@ public class FStatusBar
         light
     }
 
-    public interface Config
-    {
+    public interface Config {
         /**
          * 返回状态栏亮度
          *
@@ -336,18 +308,18 @@ public class FStatusBar
         Brightness getStatusBarBrightness();
     }
 
-    private abstract class LifecycleConfigHolder<T>
-    {
+    private abstract class LifecycleConfigHolder<T> {
         protected final Config mConfig;
         protected final T mLifecycle;
 
-        public LifecycleConfigHolder(Config config, T lifecycle)
-        {
-            if (config == null)
+        public LifecycleConfigHolder(Config config, T lifecycle) {
+            if (config == null) {
                 throw new NullPointerException("config is null");
+            }
 
-            if (lifecycle == null)
+            if (lifecycle == null) {
                 throw new NullPointerException("lifecycle is null");
+            }
 
             mConfig = config;
             mLifecycle = lifecycle;
@@ -356,28 +328,23 @@ public class FStatusBar
         protected abstract void destroy();
     }
 
-    private class ViewConfigHolder extends LifecycleConfigHolder<View> implements View.OnAttachStateChangeListener
-    {
-        public ViewConfigHolder(Config config, View lifecycle)
-        {
+    private class ViewConfigHolder extends LifecycleConfigHolder<View> implements View.OnAttachStateChangeListener {
+        public ViewConfigHolder(Config config, View lifecycle) {
             super(config, lifecycle);
             lifecycle.addOnAttachStateChangeListener(this);
         }
 
         @Override
-        public void onViewAttachedToWindow(View v)
-        {
+        public void onViewAttachedToWindow(View v) {
         }
 
         @Override
-        public void onViewDetachedFromWindow(View v)
-        {
+        public void onViewDetachedFromWindow(View v) {
             removeConfig(mConfig);
         }
 
         @Override
-        protected void destroy()
-        {
+        protected void destroy() {
             mLifecycle.removeOnAttachStateChangeListener(this);
         }
     }

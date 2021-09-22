@@ -9,13 +9,11 @@ import android.widget.FrameLayout;
 
 import com.sd.lib.systemui.navigationbar.FNavigationBarUtils;
 
-public class FNavigationBarPaddingLayout extends FrameLayout
-{
+public class FNavigationBarPaddingLayout extends FrameLayout {
     private boolean mIsCheckPadding = true;
     private int mSavePadding;
 
-    public FNavigationBarPaddingLayout(Context context, AttributeSet attrs)
-    {
+    public FNavigationBarPaddingLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mSavePadding = getPaddingBottom();
     }
@@ -25,62 +23,54 @@ public class FNavigationBarPaddingLayout extends FrameLayout
      *
      * @param padding
      */
-    public void setCheckPadding(boolean padding)
-    {
-        if (mIsCheckPadding != padding)
-        {
+    public void setCheckPadding(boolean padding) {
+        if (mIsCheckPadding != padding) {
             mIsCheckPadding = padding;
             checkPaddingNavigationBar();
         }
     }
 
-    private void checkPaddingNavigationBar()
-    {
+    private void checkPaddingNavigationBar() {
         int padding = mSavePadding;
 
-        if (mIsCheckPadding)
-        {
+        if (mIsCheckPadding) {
             final Context context = getContext();
-            if (context instanceof Activity)
-            {
+            if (context instanceof Activity) {
                 final Activity activity = (Activity) context;
                 final Window window = activity.getWindow();
                 final boolean isBarVisible = FNavigationBarUtils.isBarVisible(context);
                 final boolean isContentExtension = FNavigationBarUtils.isContentExtension(window);
-                if (isBarVisible && isContentExtension)
-                {
+                if (isBarVisible && isContentExtension) {
                     padding = FNavigationBarUtils.getBarHeight(context);
                 }
-            } else
-            {
+            } else {
                 padding = FNavigationBarUtils.getBarHeight(context);
             }
         }
 
-        if (getPaddingBottom() != padding)
+        if (getPaddingBottom() != padding) {
             super.setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), padding);
+        }
     }
 
     @Override
-    public void setPadding(int left, int top, int right, int bottom)
-    {
+    public void setPadding(int left, int top, int right, int bottom) {
         mSavePadding = bottom;
 
-        if (mIsCheckPadding)
+        if (mIsCheckPadding) {
             bottom = getPaddingBottom();
+        }
         super.setPadding(left, top, right, bottom);
     }
 
     @Override
-    protected void onConfigurationChanged(Configuration newConfig)
-    {
+    protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         checkPaddingNavigationBar();
     }
 
     @Override
-    protected void onAttachedToWindow()
-    {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         checkPaddingNavigationBar();
     }
