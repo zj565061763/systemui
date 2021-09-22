@@ -10,28 +10,22 @@ public abstract class FSystemUIHandler {
 
     /**
      * 添加View
-     *
-     * @param view
      */
     public void addView(View view) {
         if (view == null) {
             return;
         }
-
         if (mViewHolder.containsKey(view)) {
             return;
         }
 
         mViewHolder.put(view, "");
-        checkView(view);
-
         view.addOnLayoutChangeListener(mOnLayoutChangeListener);
+        checkView(view);
     }
 
     /**
      * 移除View
-     *
-     * @param view
      */
     public void removeView(View view) {
         if (view == null) {
