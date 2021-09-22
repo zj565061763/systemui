@@ -15,28 +15,22 @@ import com.sd.lib.systemui.common.FFlagUtils;
 public class FStatusBarUtils extends FFlagUtils {
     /**
      * 设置全透明
-     *
-     * @param activity
      */
     public static void setTransparent(Activity activity) {
         if (activity == null) {
             return;
         }
-
         setTransparent(activity.getWindow());
         FStatusBar.of(activity).applyActiveConfig();
     }
 
     /**
      * 设置全透明
-     *
-     * @param dialog
      */
     public static void setTransparent(Dialog dialog) {
         if (dialog == null) {
             return;
         }
-
         setTransparent(dialog.getWindow());
     }
 
@@ -50,7 +44,6 @@ public class FStatusBarUtils extends FFlagUtils {
         if (activity == null) {
             return;
         }
-
         setBrightness(activity.getWindow(), dark);
     }
 
@@ -67,10 +60,7 @@ public class FStatusBarUtils extends FFlagUtils {
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            if (window.getStatusBarColor() != Color.TRANSPARENT) {
-                window.setStatusBarColor(Color.TRANSPARENT);
-            }
+            window.setStatusBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= 19) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -95,10 +85,7 @@ public class FStatusBarUtils extends FFlagUtils {
     }
 
     /**
-     * 内容是否延展到状态栏底部
-     *
-     * @param window
-     * @return
+     * Window的内容是否延展到状态栏底部
      */
     public static boolean isContentExtension(Window window) {
         if (Build.VERSION.SDK_INT >= 21) {
@@ -116,9 +103,6 @@ public class FStatusBarUtils extends FFlagUtils {
 
     /**
      * Window的状态栏是否可见
-     *
-     * @param window
-     * @return
      */
     public static boolean isBarVisible(Window window) {
         final int flags = window.getAttributes().flags;
@@ -127,9 +111,6 @@ public class FStatusBarUtils extends FFlagUtils {
 
     /**
      * 状态栏高度
-     *
-     * @param context
-     * @return
      */
     public static int getBarHeight(Context context) {
         final Resources resources = context.getResources();
