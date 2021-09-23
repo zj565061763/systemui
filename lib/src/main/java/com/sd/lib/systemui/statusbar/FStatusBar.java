@@ -128,10 +128,6 @@ public class FStatusBar {
      * 应用配置
      */
     public void applyConfig(Config config) {
-        if (config == null) {
-            throw new NullPointerException("config is null");
-        }
-
         if (config instanceof View) {
             final View view = (View) config;
             applyConfig(config, view);
