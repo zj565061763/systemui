@@ -16,13 +16,12 @@ import java.util.Map;
 
 public class FStatusBar {
     private static final Map<Activity, FStatusBar> MAP_STATUS_BAR = new HashMap<>();
-
     private final WeakReference<Activity> mActivity;
-    private Config mDefaultConfig;
 
+    private Config mDefaultConfig;
+    private Config mLastConfig;
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
     private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new HashMap<>();
-    private Config mLastConfig;
 
     private boolean mCheckContentExtension = true;
 
