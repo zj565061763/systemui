@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import com.sd.lib.systemui.statusbar.FStatusBarUtils;
 
 public class FStatusBarPaddingLayout extends FrameLayout {
-    private boolean mIsCheckPadding = true;
+    private boolean mIsPaddingBar = true;
     private int mSavePadding;
 
     public FStatusBarPaddingLayout(Context context, AttributeSet attrs) {
@@ -19,21 +19,18 @@ public class FStatusBarPaddingLayout extends FrameLayout {
     }
 
     /**
-     * 设置是否检查状态栏padding
-     *
-     * @param padding
+     * 设置是否padding状态栏高度
      */
-    public void setCheckPadding(boolean padding) {
-        if (mIsCheckPadding != padding) {
-            mIsCheckPadding = padding;
-            checkPaddingStatusBar();
+    public void setPaddingBar(boolean padding) {
+        if (mIsPaddingBar != padding) {
+            mIsPaddingBar = padding;
+            checkPaddingBar();
         }
     }
 
-    private void checkPaddingStatusBar() {
+    private void checkPaddingBar() {
         int padding = mSavePadding;
-
-        if (mIsCheckPadding) {
+        if (mIsPaddingBar) {
             final Context context = getContext();
             if (context instanceof Activity) {
                 final Activity activity = (Activity) context;
@@ -56,22 +53,22 @@ public class FStatusBarPaddingLayout extends FrameLayout {
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
         mSavePadding = top;
-
-        if (mIsCheckPadding) {
-            top = getPaddingTop();
+        if (mIsPaddingBar) {
+            // 当前padding为状态栏高度，不允许修改
+        } else {
+            super.setPadding(left, top, right, bottom);
         }
-        super.setPadding(left, top, right, bottom);
     }
 
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        checkPaddingStatusBar();
+        checkPaddingBar();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        checkPaddingStatusBar();
+        checkPaddingBar();
     }
 }
