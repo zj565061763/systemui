@@ -32,7 +32,6 @@ public class FStatusBar {
         }
 
         mActivity = new WeakReference<>(activity);
-
         if (!activity.isFinishing()) {
             activity.getApplication().registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
         }
@@ -40,9 +39,6 @@ public class FStatusBar {
 
     /**
      * 返回activity的状态栏
-     *
-     * @param activity
-     * @return
      */
     public static synchronized FStatusBar of(Activity activity) {
         if (activity == null) {
@@ -63,7 +59,6 @@ public class FStatusBar {
         if (activity == null) {
             return;
         }
-
         MAP_STATUS_BAR.remove(activity);
     }
 
