@@ -61,6 +61,7 @@ public class FStatusBarUtils extends FFlagUtils {
     public static void setContentExtension(Activity activity, boolean extension) {
         if (activity != null) {
             setContentExtension(activity.getWindow(), extension);
+            FStatusBar.of(activity).applyActiveConfig();
         }
     }
 
@@ -168,7 +169,6 @@ public class FStatusBarUtils extends FFlagUtils {
         if (activity != null) {
             setBarColor(activity, Color.TRANSPARENT);
             setContentExtension(activity, true);
-            FStatusBar.of(activity).applyActiveConfig();
         }
     }
 
