@@ -186,14 +186,11 @@ public class FStatusBar {
 
     /**
      * 移除配置，移除后上一个配置立即生效
-     *
-     * @param config
      */
     public void removeConfig(Config config) {
         if (config == null) {
             return;
         }
-
         if (mConfigHolder.remove(config)) {
             removeLifecycleConfigIfNeed(config);
             applyActiveConfig();
