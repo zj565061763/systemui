@@ -296,7 +296,6 @@ public class FStatusBar {
             if (config == null) {
                 throw new NullPointerException("config is null");
             }
-
             if (lifecycle == null) {
                 throw new NullPointerException("lifecycle is null");
             }
