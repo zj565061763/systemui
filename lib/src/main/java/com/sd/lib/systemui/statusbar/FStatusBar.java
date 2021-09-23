@@ -206,8 +206,6 @@ public class FStatusBar {
 
     /**
      * 应用配置
-     *
-     * @param config
      */
     private void applyConfigInternal(Config config) {
         if (config == null) {
