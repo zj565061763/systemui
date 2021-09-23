@@ -81,17 +81,13 @@ public class FStatusBar {
 
     /**
      * 返回最后设置的配置
-     *
-     * @return
      */
     public Config getLastConfig() {
         return mLastConfig;
     }
 
     /**
-     * 检查内容是否延展到状态栏底部
-     *
-     * @param check
+     * 设置是否检查内容延展到状态栏底部，默认true检查
      */
     public void setCheckContentExtension(boolean check) {
         if (mCheckContentExtension != check) {
@@ -102,14 +98,11 @@ public class FStatusBar {
 
     /**
      * 设置默认配置
-     *
-     * @param config
      */
     public void setDefaultConfig(Config config) {
         if (config == null) {
             throw new NullPointerException("config is null");
         }
-
         if (mDefaultConfig != config) {
             mDefaultConfig = config;
             applyActiveConfig();
@@ -133,8 +126,6 @@ public class FStatusBar {
 
     /**
      * 应用配置
-     *
-     * @param config
      */
     public void applyConfig(Config config) {
         if (config == null) {
@@ -155,7 +146,6 @@ public class FStatusBar {
     /**
      * 应用配置
      *
-     * @param config
      * @param lifecycleView 生命周期view。不为null的话，则view被移除的时候，自动移除config
      */
     public void applyConfig(Config config, View lifecycleView) {
