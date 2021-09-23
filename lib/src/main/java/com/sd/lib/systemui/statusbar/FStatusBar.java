@@ -152,55 +152,77 @@ public class FStatusBar {
         if (config == null) {
             throw new NullPointerException("config is null");
         }
-
         if (config == mDefaultConfig) {
             throw new IllegalArgumentException("can not apply default config here");
         }
 
-        if (config != mLastConfig) {
-            mConfigHolder.remove(config);
-            mConfigHolder.add(config);
+        if (lifecycleView == null) {
+            destroyLifecycleConfig(config);
+            addConfigInternal(config);
+            return;
         }
 
-        applyActiveConfig();
-
-        if (lifecycleView != null) {
-            LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
-            if (holder == null) {
-                holder = new ViewConfigHolder(config, lifecycleView);
-                mLifecycleConfigHolder.put(config, holder);
+        final LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
+        if (holder != null) {
+            if (holder.mLifecycle == lifecycleView) {
+                // 生命周期View未发生变化，直接返回不处理
+                return;
             } else {
-                if (holder.mLifecycle != lifecycleView) {
-                    // 如果生命周期view发生了变化，先移除销毁旧对象
-                    removeLifecycleConfigIfNeed(config);
-
-                    // 重新创建对象保存
-                    holder = new ViewConfigHolder(config, lifecycleView);
-                    mLifecycleConfigHolder.put(config, holder);
-                }
+                // 生命周期view发生变化，先移除销毁
+                destroyLifecycleConfig(config);
             }
-        } else {
-            removeLifecycleConfigIfNeed(config);
         }
+
+        final LifecycleConfigHolder newHolder = new ViewConfigHolder(config, lifecycleView);
+        newHolder.init();
+        mLifecycleConfigHolder.put(config, newHolder);
     }
 
     /**
      * 移除配置，移除后上一个配置立即生效
      */
     public void removeConfig(Config config) {
+        removeConfigInternal(config);
+        destroyLifecycleConfig(config);
+    }
+
+    private void destroyLifecycleConfig(Config config) {
+        if (config == null) {
+            return;
+        }
+        final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
+        if (holder != null) {
+            holder.destroy();
+        }
+    }
+
+    /**
+     * 添加配置
+     */
+    private void addConfigInternal(Config config) {
+        if (config == null) {
+            throw new NullPointerException("config is null");
+        }
+        if (config == mDefaultConfig) {
+            throw new IllegalArgumentException("can not apply default config here");
+        }
+
+        if (mLastConfig != config) {
+            mConfigHolder.remove(config);
+            mConfigHolder.add(config);
+        }
+        applyActiveConfig();
+    }
+
+    /**
+     * 移除配置
+     */
+    private void removeConfigInternal(Config config) {
         if (config == null) {
             return;
         }
         if (mConfigHolder.remove(config)) {
-            removeLifecycleConfigIfNeed(config);
             applyActiveConfig();
-        }
-    }
-
-    private void removeLifecycleConfigIfNeed(Config config) {
-        final LifecycleConfigHolder holder = mLifecycleConfigHolder.remove(config);
-        if (holder != null) {
-            holder.destroy();
         }
     }
 
@@ -269,21 +291,15 @@ public class FStatusBar {
     };
 
     public enum Brightness {
-        /**
-         * 暗色主题
-         */
+        /** 暗色 */
         dark,
-        /**
-         * 亮色主题
-         */
+        /** 亮色 */
         light
     }
 
     public interface Config {
         /**
          * 返回状态栏亮度
-         *
-         * @return
          */
         Brightness getStatusBarBrightness();
     }
@@ -304,22 +320,29 @@ public class FStatusBar {
             mLifecycle = lifecycle;
         }
 
+        protected abstract void init();
+
         protected abstract void destroy();
     }
 
     private class ViewConfigHolder extends LifecycleConfigHolder<View> implements View.OnAttachStateChangeListener {
         public ViewConfigHolder(Config config, View lifecycle) {
             super(config, lifecycle);
-            lifecycle.addOnAttachStateChangeListener(this);
+        }
+
+        @Override
+        protected void init() {
+            mLifecycle.addOnAttachStateChangeListener(this);
         }
 
         @Override
         public void onViewAttachedToWindow(View v) {
+            addConfigInternal(mConfig);
         }
 
         @Override
         public void onViewDetachedFromWindow(View v) {
-            removeConfig(mConfig);
+            removeConfigInternal(mConfig);
         }
 
         @Override
