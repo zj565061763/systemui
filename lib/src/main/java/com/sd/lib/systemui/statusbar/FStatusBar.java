@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class FStatusBar {
     private static final Map<Activity, FStatusBar> MAP_STATUS_BAR = new HashMap<>();
@@ -21,7 +22,7 @@ public class FStatusBar {
     private Config mDefaultConfig;
     private Config mLastConfig;
     private final Collection<Config> mConfigHolder = new LinkedHashSet<>();
-    private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new HashMap<>();
+    private final Map<Config, LifecycleConfigHolder> mLifecycleConfigHolder = new WeakHashMap<>();
 
     private boolean mCheckContentExtension = true;
 
@@ -63,19 +64,6 @@ public class FStatusBar {
 
     private Activity getActivity() {
         return mActivity.get();
-    }
-
-    private Config getActiveConfig() {
-        if (mConfigHolder.isEmpty()) {
-            mLastConfig = null;
-            return mDefaultConfig;
-        }
-
-        final List<Config> list = new ArrayList<>(mConfigHolder);
-        final Config lastConfig = list.get(list.size() - 1);
-
-        mLastConfig = lastConfig;
-        return lastConfig;
     }
 
     /**
@@ -121,6 +109,19 @@ public class FStatusBar {
     public void applyActiveConfig() {
         final Config config = getActiveConfig();
         applyConfigInternal(config);
+    }
+
+    private Config getActiveConfig() {
+        if (mConfigHolder.isEmpty()) {
+            mLastConfig = null;
+            return mDefaultConfig;
+        }
+
+        final List<Config> list = new ArrayList<>(mConfigHolder);
+        final Config lastConfig = list.get(list.size() - 1);
+
+        mLastConfig = lastConfig;
+        return lastConfig;
     }
 
     /**
