@@ -13,8 +13,17 @@ public class FStatusBarPaddingLayout extends FrameLayout {
     private boolean mIsPaddingBar = true;
     private int mSavePadding;
 
+    public FStatusBarPaddingLayout(Context context) {
+        super(context);
+        init();
+    }
+
     public FStatusBarPaddingLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
+
+    private void init() {
         mSavePadding = getPaddingTop();
     }
 
