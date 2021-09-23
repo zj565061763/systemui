@@ -25,6 +25,6 @@ public class TestDialog extends Dialog implements FStatusBar.Config {
 
     @Override
     public FStatusBar.Brightness getStatusBarBrightness() {
-        return FStatusBar.Brightness.dark;
+        return FStatusBar.Brightness.light;
     }
 }
