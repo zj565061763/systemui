@@ -3,6 +3,7 @@ package com.sd.lib.systemui.statusbar;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -87,9 +88,6 @@ public class FStatusBar {
      * 设置默认配置
      */
     public void setDefaultConfig(Config config) {
-        if (config == null) {
-            throw new NullPointerException("config is null");
-        }
         if (mDefaultConfig != config) {
             mDefaultConfig = config;
             applyActiveConfig();
@@ -160,7 +158,7 @@ public class FStatusBar {
 
         final LifecycleConfigHolder holder = mLifecycleConfigHolder.get(config);
         if (holder != null) {
-            if (holder.mLifecycle == lifecycleView) {
+            if (holder.getLifecycle() == lifecycleView) {
                 // 生命周期View未发生变化，直接返回不处理
                 return;
             } else {
@@ -170,8 +168,9 @@ public class FStatusBar {
         }
 
         final LifecycleConfigHolder newHolder = new ViewConfigHolder(config, lifecycleView);
-        newHolder.init();
-        mLifecycleConfigHolder.put(config, newHolder);
+        if (newHolder.init()) {
+            mLifecycleConfigHolder.put(config, newHolder);
+        }
     }
 
     /**
@@ -197,7 +196,7 @@ public class FStatusBar {
      */
     private void addConfigInternal(Config config) {
         if (config == null) {
-            throw new NullPointerException("config is null");
+            return;
         }
         if (config == mDefaultConfig) {
             throw new IllegalArgumentException("can not apply default config here");
@@ -229,7 +228,6 @@ public class FStatusBar {
         if (config == null) {
             return;
         }
-
         final Activity activity = getActivity();
         if (activity == null || activity.isFinishing()) {
             return;
@@ -301,8 +299,8 @@ public class FStatusBar {
     }
 
     private abstract class LifecycleConfigHolder<T> {
-        protected final Config mConfig;
-        protected final T mLifecycle;
+        private final WeakReference<Config> mConfig;
+        private final WeakReference<T> mLifecycle;
 
         public LifecycleConfigHolder(Config config, T lifecycle) {
             if (config == null) {
@@ -312,11 +310,19 @@ public class FStatusBar {
                 throw new NullPointerException("lifecycle is null");
             }
 
-            mConfig = config;
-            mLifecycle = lifecycle;
+            mConfig = new WeakReference<>(config);
+            mLifecycle = new WeakReference<>(lifecycle);
         }
 
-        protected abstract void init();
+        public final Config getConfig() {
+            return mConfig.get();
+        }
+
+        public final T getLifecycle() {
+            return mLifecycle.get();
+        }
+
+        protected abstract boolean init();
 
         protected abstract void destroy();
     }
@@ -327,23 +333,53 @@ public class FStatusBar {
         }
 
         @Override
-        protected void init() {
-            mLifecycle.addOnAttachStateChangeListener(this);
+        protected boolean init() {
+            final View view = getLifecycle();
+            if (view == null) {
+                return false;
+            }
+
+            final Config config = getConfig();
+            if (config == null) {
+                return false;
+            }
+
+            if (isAttached(view)) {
+                addConfigInternal(config);
+            }
+
+            view.removeOnAttachStateChangeListener(this);
+            view.addOnAttachStateChangeListener(this);
+            return true;
         }
 
         @Override
         public void onViewAttachedToWindow(View v) {
-            addConfigInternal(mConfig);
+            addConfigInternal(getConfig());
         }
 
         @Override
         public void onViewDetachedFromWindow(View v) {
-            removeConfigInternal(mConfig);
+            removeConfigInternal(getConfig());
         }
 
         @Override
         protected void destroy() {
-            mLifecycle.removeOnAttachStateChangeListener(this);
+            final View view = getLifecycle();
+            if (view != null) {
+                view.removeOnAttachStateChangeListener(this);
+            }
+        }
+    }
+
+    private static boolean isAttached(View view) {
+        if (view == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            return view.isAttachedToWindow();
+        } else {
+            return view.getWindowToken() != null;
         }
     }
 }
