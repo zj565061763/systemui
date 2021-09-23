@@ -1,5 +1,6 @@
 package com.sd.systemui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,8 +30,9 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        FStatusBarUtils.setTransparent(this);
-        FNavigationBarUtils.setTransparent(this);
+        FStatusBar.of(this).setDefaultConfig(this);
+        FStatusBarUtils.setBarColor(this, Color.TRANSPARENT);
+        FStatusBarUtils.setContentExtension(this, true);
 
         Log.i(TAG, "StatusBar"
                 + " isBarVisible:" + FStatusBarUtils.isBarVisible(getWindow())
@@ -41,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements FStatusBar.Config
                 + " isBarVisible:" + FNavigationBarUtils.isBarVisible(this)
                 + " isContentExtension:" + FNavigationBarUtils.isContentExtension(getWindow())
                 + " getBarHeight:" + FNavigationBarUtils.getBarHeight(this));
-
-        FStatusBar.of(this).setDefaultConfig(this);
 
         Log.i(TAG, "heightPixels:" + getResources().getDisplayMetrics().heightPixels + " realHeight:" + FSystemUIUtils.getRealMetrics(getWindow()).heightPixels);
         getWindow().getDecorView().post(new Runnable() {

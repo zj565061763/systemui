@@ -5,9 +5,9 @@
     android:background="@drawable/wel"
     android:orientation="vertical">
 
-    <com.sd.lib.systemui.statusbar.view.FStatusBarPaddingLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<!--    <com.sd.lib.systemui.statusbar.view.FStatusBarPaddingLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
 
     <Button
         android:id="@+id/btn_change_status_bar"
